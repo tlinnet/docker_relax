@@ -64,6 +64,17 @@ dr mpirun -np 2 echo "hello world"
 dr mpirun --report-bindings -np 2 echo "hello world"
 ```
 
+To make this easier, consider adding this to **HOME/.bash_profile**
+
+```bash
+# Start docker, if it is not running
+alias drdocker='open -a /Applications/Docker.app/Contents/MacOS/Docker'
+# Start  XQuartz, if it is not running
+alias drx='open -a XQuartz; xhost + `ipconfig getifaddr en1`'
+# Alias the docker run command
+alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name ubuntu_relax tlinnet/docker_relax'
+```
+
 To open a bash terminal in the container, when it is running
 
 ```bash
