@@ -7,6 +7,7 @@ Includes builded software for:
 * [NMRPipe](https://www.ibbr.umd.edu/nmrpipe/install.html)
 * [Art Palmers ModelFree4](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software)
 * [MddNMR](http://mddnmr.spektrino.com/download)
+* [nmrglue](https://www.nmrglue.com/)
 
 # Get prebuild image:
 ```bash
@@ -92,6 +93,14 @@ dr mpirun --report-bindings -np 2 echo "hello world"
 # Start nmrDraw. It apparently takes 1-2 min to open window?
 dr nmrDraw
 ```
+## Art Palmers ModelFree4
+```bash
+dr modelfree4
+```
+## MddNMR
+```bash
+```
+
 
 # Delete container and images
 This will destroy all your images and containers. **It will not be possible to restore them!**
