@@ -5,9 +5,11 @@ Includes builded software for:
 
 * [relax](http://www.nmr-relax.com/)
 * [NMRPipe](https://www.ibbr.umd.edu/nmrpipe/install.html)
-* [Art Palmers ModelFree4](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software)
+* [Art Palmers ModelFree4](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/modelfree)
 * [MddNMR](http://mddnmr.spektrino.com/download)
 * [nmrglue](https://www.nmrglue.com/)
+* [Art Palmers Quadric](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/quadric-diffusion)
+* [Art Palmers PDBinertia](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/pdbinertia)
 
 # Get prebuild image:
 ```bash
@@ -78,6 +80,8 @@ docker exec -it ubuntu_relax bash
 
 # Installed programs
 ## relax
+* [relax](http://www.nmr-relax.com/)
+
 ```bash
 # Start relax in GUI
 dr relax -g
@@ -89,18 +93,45 @@ dr mpirun -np 2 echo "hello world"
 dr mpirun --report-bindings -np 2 echo "hello world"
 ```
 ## nmrPipe
+* [NMRPipe](https://www.ibbr.umd.edu/nmrpipe/install.html)
+
 ```bash
 # Start nmrDraw. It apparently takes 1-2 min to open window?
 dr nmrDraw
 ```
 ## Art Palmers ModelFree4
+* [Art Palmers ModelFree4](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/modelfree)
+
 ```bash
 dr modelfree4
 ```
 ## MddNMR
+* [MddNMR](http://mddnmr.spektrino.com/download)
+
 ```bash
+dr qMDD
+```
+## nmrglue
+* [nmrglue](https://www.nmrglue.com/)
+
+```bash
+dr python -c "import nmrglue; print nmrglue.__version__"
 ```
 
+## Art Palmers Quadric
+* [Art Palmers Quadric](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/quadric-diffusion)
+
+```bash
+dr quadric_diffusion
+dr r2r1_tm
+```
+
+## Art Palmers PDBinertia
+* [Art Palmers PDBinertia](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/pdbinertia)
+
+```bash
+dr pdbinertia
+```
 
 # Delete container and images
 This will destroy all your images and containers. **It will not be possible to restore them!**
