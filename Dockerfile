@@ -168,5 +168,9 @@ ENV PDBH_DIR=$PDBH_BASE/pdbH
 ENV PDBH_LIST=$PDBH_BASE/pdbH.list
 ENV PDBH_TAB=$PDBH_BASE/resolution.tab
 
+# MddNMR
+# http://mddnmr.spektrino.com/download
+
+
 # Modify PATH.
 ENV PATH="/home/developer/bin:${PATH}"
