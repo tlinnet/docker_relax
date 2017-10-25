@@ -5,6 +5,7 @@ Includes builded software for:
 
 * [relax](http://www.nmr-relax.com/)
 * [NMRPipe](https://www.ibbr.umd.edu/nmrpipe/install.html)
+* [Art Palmers ModelFree4](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software)
 * [MddNMR](http://mddnmr.spektrino.com/download)
 
 # Get prebuild image:
