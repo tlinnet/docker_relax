@@ -2,14 +2,14 @@ Made from http://fabiorehm.com/blog/2014/09/11/running-gui-apps-with-docker/
 Also read: https://blog.jessfraz.com/post/docker-containers-on-the-desktop/
 
 # Build with:
-docker build -t relax .
+docker build -t docker_relax .
 
 # https://docs.docker.com/v1.11/engine/reference/commandline/build/
 # -t : --tag=[]  Name and optionally a tag in the 'name:tag' format
 # PATH
 
 # Run with
-docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix $PWD:/home/developer/work --name ubuntu_relax relax
+docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix $PWD:/home/developer/work --name ubuntu_relax docker_relax
 
 # On mac, first make sure XQuartz is running
 open -a XQuartz
@@ -17,10 +17,10 @@ open -a XQuartz
 
 # Then set DISPLAY options
 xhost + `ipconfig getifaddr en1`
-docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name ubuntu_relax relax
+docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name ubuntu_relax docker_relax
 
 # You can run different commands from the docker:
-alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name ubuntu_relax relax'
+alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name ubuntu_relax docker_relax'
 # Start relax
 dr relax
 # Start relax in GUI
