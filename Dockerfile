@@ -111,13 +111,52 @@ RUN cd $HOME && \
     curl -O https://www.ibbr.umd.edu/nmrpipe/talos.tZ && \
     curl -O https://spin.niddk.nih.gov/bax/software/smile/plugin.smile.tZ    
 
-# Run install
+# Run install.
+# ./install.com +help to generate a list of install 
 RUN cd $HOME && \
     cd $HOME/software/NMRPipe && \
-    chmod +x install.com
-    #./install.com
+    chmod a+r NMRPipeX.tZ && \
+    chmod a+r s.tZ && \
+    chmod a+r dyn.tZ && \
+    chmod a+r talos.tZ && \
+    chmod a+r plugin.smile.tZ && \
+    chmod a+rx install.com && \
+    chmod a+rx binval.com
+RUN cd $HOME && \
+    cd $HOME/software/NMRPipe && \
+    ./install.com
+
+ENV NMRBASE=/home/developer/software/NMRPipe
+ENV PATH="$NMRBASE/nmrbin.linux212_64:$NMRBASE/com:${PATH}"
+ENV NMR_IO_TIMEOUT=0
+ENV NMR_IO_SELECT=0
+ENV NMR_AUTOSWAP=1
+ENV NMR_PLUGIN_FN=SMILE
+ENV NMR_PLUGIN_EXE=nusPipe
+ENV NMR_PLUGIN_INFO="-nDim -sample sName ... MD NUS Reconstruction"
+ENV MANPATH=$NMRBASE/man:/usr/share/man:/usr/local/man:${MANPATH}
+ENV MANPATH=$NMRBASE/man:/usr/share/man:/usr/local/man
+ENV LD_LIBRARY_PATH=$NMRBASE/nmrbin.linux212_64/lib:${LD_LIBRARY_PATH}
+#ENV LD_LIBRARY_PATH=$NMRBASE/nmrbin.linux212_64/lib
+ENV OPENWINHOME=$NMRBASE/nmrbin.linux212_64/openwin
+ENV NMR_CHECKARGS=ALL
+ENV NMR_FSCHECK=NO
+ENV NMRBINTYPE=linux212_64
+ENV NMRTXT=$NMRBASE/nmrtxt
+ENV NMRBIN=$NMRBASE/nmrbin.linux212_64
+ENV TCLPATH=$NMRBASE/com
+ENV TALOS_DIR=$NMRBASE/talos
+ENV TALOSP_DIR=$NMRBASE/talosplus
+ENV TALOSN_DIR=$NMRBASE/talosn
+ENV SPARTAP_DIR=$NMRBASE/spartaplus
+ENV PROMEGA_DIR=$NMRBASE/promega
+ENV NMR_TCLTK8=TRUE
+ENV TCL_LIBRARY=$NMRBASE/nmrtcl/tcl8.4
+ENV TK_LIBRARY=$NMRBASE/nmrtcl/tk8.4
+ENV BLT_LIBRARY=$NMRBASE/nmrtcl/blt2.4
+ENV NMRPIPE_TCL_LIB=$NMRBASE/nmrtcl/tcl8.4
+ENV NMRPIPE_TK_LIB=$NMRBASE/nmrtcl/tk8.4
+ENV NMRPIPE_BLT_LIB=$NMRBASE/nmrtcl/blt2.4
 
 # Modify PATH.
-RUN echo "\n# For user bin" >> $HOME/.bashrc
-RUN echo 'PATH=$HOME/bin:$PATH' >> $HOME/.bashrc
 ENV PATH="/home/developer/bin:${PATH}"
