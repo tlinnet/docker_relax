@@ -3,8 +3,9 @@ Docker image for building NMR software on Ubuntu
 
 Includes builded software for:
 
-* [NMRPipe](https://www.ibbr.umd.edu/nmrpipe/install.html)<br>
 * [relax](http://www.nmr-relax.com/)
+* [NMRPipe](https://www.ibbr.umd.edu/nmrpipe/install.html)
+* [MddNMR](http://mddnmr.spektrino.com/download)
 
 # Get prebuild image:
 ```bash
@@ -54,14 +55,6 @@ Then try to run programs after making the **dr** alias:
 ```bash
 # Start relax
 dr relax
-# Start relax in GUI
-dr relax -g
-# Start OpenDX
-dr dx
-# Try OpenMPI
-dr mpirun --version
-dr mpirun -np 2 echo "hello world"
-dr mpirun --report-bindings -np 2 echo "hello world"
 ```
 
 To make this easier, consider adding this to **HOME/.bash_profile**
@@ -79,6 +72,24 @@ To open a bash terminal in the container, when it is running
 
 ```bash
 docker exec -it ubuntu_relax bash
+```
+
+# Installed programs
+## relax
+```bash
+# Start relax in GUI
+dr relax -g
+# Start OpenDX
+dr dx
+# Try OpenMPI
+dr mpirun --version
+dr mpirun -np 2 echo "hello world"
+dr mpirun --report-bindings -np 2 echo "hello world"
+```
+## nmrPipe
+```bash
+# Start nmrDraw. It apparently takes 1-2 min to open window?
+dr nmrDraw
 ```
 
 # Delete container and images
