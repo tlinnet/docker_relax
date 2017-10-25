@@ -14,8 +14,8 @@ RUN apt-get update && \
         dx lynx htop curl wget unzip gawk tcsh \
         subversion git scons grace \        
         openmpi-bin openmpi-doc libopenmpi-dev \
-        python-numpy python-scipy python-matplotlib python-pip python-wxgtk3.0
-# python-pandas
+        python-numpy python-scipy python-matplotlib python-pip python-wxgtk3.0 \
+        python-pandas python-pyside 
 
 # NMRPipe
 # http://www.lorieau.com/nmr/2015/04/15/NMRPipe-ubuntu14.04.html
@@ -57,6 +57,20 @@ RUN VBMR=`lynx -dump "http://wiki.nmr-relax.com/Template:Current_version_bmrblib
     curl https://iweb.dl.sourceforge.net/project/bmrblib/$VBMR/bmrblib-$VBMR.tar.gz -o bmrblib-$VBMR.tar.gz && \
     tar -xzf bmrblib-$VBMR.tar.gz && \
     cd bmrblib-$VBMR && \
+    pip install . && \
+    cd $HOME
+
+# Install nmrglue
+# https://www.nmrglue.com/
+RUN cd $HOME && \
+    echo "Installing nmrglue" && \
+    mkdir -p $HOME/Downloads && \
+    cd $HOME/Downloads && \
+    curl -LOk `curl -s https://api.github.com/repos/jjhelmus/nmrglue/releases/latest | grep "browser_download_url" | cut -d: -f2,3 | tr -d \" `
+RUN cd $HOME && \
+    cd $HOME/Downloads && \
+    tar -xzf nmrglue-*.tar.gz && \
+    cd nmrglue-* && \
     pip install . && \
     cd $HOME
 
@@ -125,7 +139,9 @@ RUN cd $HOME && \
     chmod a+rx binval.com
 RUN cd $HOME && \
     cd $HOME/software/NMRPipe && \
+    touch /home/developer/.cshrc && \
     ./install.com
+
 # Made from: source /home/developer/software/NMRPipe/com/nmrInit.linux212_64.com
 ENV NMRBASE=/home/developer/software/NMRPipe
 ENV PATH="$NMRBASE/nmrbin.linux212_64:$NMRBASE/com:${PATH}"
@@ -179,7 +195,14 @@ RUN cd $HOME && \
     cd $HOME/Downloads && \
     tar xvf mddnmr2.5.tgz && \
     mv mddnmr $HOME/software/mddnmr && \
+RUN cd $HOME && \
     cd $HOME/software/mddnmr
+
+# Set environment for MddNMR
+ENV MDD_NMR=/home/developer/software/mddnmr 
+ENV MDD_NMRbin=${MDD_NMR}/binCentOS64Static 
+ENV PATH=".:${PATH}:$MDD_NMRbin:${MDD_NMR}/com"
+
 
 # Modify PATH.
 ENV PATH="/home/developer/bin:${PATH}"
