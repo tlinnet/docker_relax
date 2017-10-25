@@ -100,7 +100,7 @@ RUN cd $HOME && \
     cd $HOME
 
 # Add Palmers Modelfree
-# http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software
+# http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/modelfree
 RUN cd $HOME && \
     echo "Installing Palmers Modelfree" && \
     mkdir -p $HOME/Downloads && \
@@ -194,15 +194,42 @@ RUN cd $HOME && \
 RUN cd $HOME && \
     cd $HOME/Downloads && \
     tar xvf mddnmr2.5.tgz && \
-    mv mddnmr $HOME/software/mddnmr && \
+    mv mddnmr $HOME/software/mddnmr
 RUN cd $HOME && \
-    cd $HOME/software/mddnmr
+    cd $HOME/software/mddnmr && \
+    ./Install
 
 # Set environment for MddNMR
 ENV MDD_NMR=/home/developer/software/mddnmr 
 ENV MDD_NMRbin=${MDD_NMR}/binCentOS64Static 
 ENV PATH=".:${PATH}:$MDD_NMRbin:${MDD_NMR}/com"
 
+# Add Palmers Quadric
+# http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/quadric-diffusion
+RUN cd $HOME && \
+    echo "Installing Palmers Quadric" && \
+    mkdir -p $HOME/Downloads && \
+    cd $HOME/Downloads && \
+    curl -O http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/quadric-diffusion/quadric_linux64.tar.gz && \
+    tar -xzf quadric_linux64.tar.gz && \
+    mkdir -p $HOME/software && \
+    mv linux $HOME/software/quadric && \
+    ln -s $HOME/software/quadric/linux_64/quadric_diffusion $HOME/bin/quadric_diffusion && \
+    ln -s $HOME/software/quadric/linux_64/r2r1_tm $HOME/bin/r2r1_tm && \
+    cd $HOME
+
+# Add Palmers PDBinertia
+# http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/quadric-diffusion
+RUN cd $HOME && \
+    echo "Installing Palmers PDBinertia" && \
+    mkdir -p $HOME/Downloads && \
+    cd $HOME/Downloads && \
+    curl -O http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/pdbinertia/pdbinertia_linux64.tar.gz && \
+    tar -xzf pdbinertia_linux64.tar.gz && \
+    mkdir -p $HOME/software && \
+    mv linux $HOME/software/pdbinertia && \
+    ln -s $HOME/software/pdbinertia/linux_64/pdbinertia $HOME/bin/pdbinertia && \
+    cd $HOME
 
 # Modify PATH.
 ENV PATH="/home/developer/bin:${PATH}"
