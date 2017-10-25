@@ -126,6 +126,7 @@ RUN cd $HOME && \
     cd $HOME/software/NMRPipe && \
     ./install.com
 
+# Made from: source /home/developer/software/NMRPipe/com/nmrInit.linux212_64.com
 ENV NMRBASE=/home/developer/software/NMRPipe
 ENV PATH="$NMRBASE/nmrbin.linux212_64:$NMRBASE/com:${PATH}"
 ENV NMR_IO_TIMEOUT=0
@@ -157,6 +158,15 @@ ENV BLT_LIBRARY=$NMRBASE/nmrtcl/blt2.4
 ENV NMRPIPE_TCL_LIB=$NMRBASE/nmrtcl/tcl8.4
 ENV NMRPIPE_TK_LIB=$NMRBASE/nmrtcl/tk8.4
 ENV NMRPIPE_BLT_LIB=$NMRBASE/nmrtcl/blt2.4
+# Made from: source /home/developer/software/NMRPipe/dynamo/com/dynInit.com
+ENV DYNAMO_KEY=2002084
+ENV DYNAMO_DIR=$NMRBASE/dynamo
+ENV DYNAMO_PARAMS=$NMRBASE/dynamo/params
+ENV SURF_DIR=$NMRBASE/dynamo/surface
+ENV PDBH_BASE=$NMRBASE/pdb
+ENV PDBH_DIR=$PDBH_BASE/pdbH
+ENV PDBH_LIST=$PDBH_BASE/pdbH.list
+ENV PDBH_TAB=$PDBH_BASE/resolution.tab
 
 # Modify PATH.
 ENV PATH="/home/developer/bin:${PATH}"
