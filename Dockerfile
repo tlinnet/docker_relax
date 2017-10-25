@@ -11,11 +11,11 @@ RUN apt-get update
 
 RUN apt-get update && \
     apt-get install -y \
-        dx lynx htop curl tcsh \
+        dx lynx htop curl wget unzip gawk tcsh \
         subversion git scons grace \        
         openmpi-bin openmpi-doc libopenmpi-dev \
         python-numpy python-scipy python-matplotlib python-pip python-wxgtk3.0
-
+# python-pandas
 
 # NMRPipe
 # http://www.lorieau.com/nmr/2015/04/15/NMRPipe-ubuntu14.04.html
@@ -72,6 +72,7 @@ WORKDIR /home/developer/work
 RUN mkdir -p $HOME/.local/share
 
 # Get relax
+# http://www.nmr-relax.com
 RUN cd $HOME && \
     mkdir -p $HOME/software && \
     cd $HOME/software && \
@@ -85,6 +86,7 @@ RUN cd $HOME && \
     cd $HOME
 
 # Add Palmers Modelfree
+# http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software
 RUN cd $HOME && \
     echo "Installing Palmers Modelfree" && \
     mkdir -p $HOME/Downloads && \
@@ -110,7 +112,6 @@ RUN cd $HOME && \
     curl -O https://www.ibbr.umd.edu/nmrpipe/dyn.tZ && \
     curl -O https://www.ibbr.umd.edu/nmrpipe/talos.tZ && \
     curl -O https://spin.niddk.nih.gov/bax/software/smile/plugin.smile.tZ    
-
 # Run install.
 # ./install.com +help to generate a list of install 
 RUN cd $HOME && \
@@ -125,7 +126,6 @@ RUN cd $HOME && \
 RUN cd $HOME && \
     cd $HOME/software/NMRPipe && \
     ./install.com
-
 # Made from: source /home/developer/software/NMRPipe/com/nmrInit.linux212_64.com
 ENV NMRBASE=/home/developer/software/NMRPipe
 ENV PATH="$NMRBASE/nmrbin.linux212_64:$NMRBASE/com:${PATH}"
@@ -170,7 +170,16 @@ ENV PDBH_TAB=$PDBH_BASE/resolution.tab
 
 # MddNMR
 # http://mddnmr.spektrino.com/download
-
+RUN cd $HOME && \
+    echo "Installing MddNMR" && \
+    mkdir -p $HOME/Downloads && \
+    cd $HOME/Downloads && \
+    curl -L -O https://github.com/tlinnet/docker_relax/raw/master/mddnmr2.5.tgz
+RUN cd $HOME && \
+    cd $HOME/Downloads && \
+    tar xvf mddnmr2.5.tgz && \
+    mv mddnmr $HOME/software/mddnmr && \
+    cd $HOME/software/mddnmr
 
 # Modify PATH.
 ENV PATH="/home/developer/bin:${PATH}"
