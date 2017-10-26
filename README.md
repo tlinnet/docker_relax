@@ -33,7 +33,7 @@ docker images
 ## Running on linux <a name="runlinux"></a>
 
 ```bash
-alias dr='docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name ubuntu_relax docker_relax'
+alias dr='docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name ubuntu_relax docker_relax'
 ```
 
 ## Running on a mac <a name="runmac"></a>
@@ -48,7 +48,7 @@ open -a XQuartz
 xhost + `ipconfig getifaddr en1`
 
 # Then make alias and run. Set 'en1' to either en1 or en0, depending which returns IP.
-alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name ubuntu_relax tlinnet/docker_relax'
+alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name ubuntu_relax tlinnet/docker_relax'
 ```
 
 ## Easy run of docker by adding alias to shell profile file
@@ -56,7 +56,7 @@ To make this easier on a **linux**, consider adding this to **HOME/.bash_profile
 
 ```bash
 # Alias the docker run command
-alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name ubuntu_relax tlinnet/docker_relax'
+alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name ubuntu_relax tlinnet/docker_relax'
 ```
 
 To make this easier on a **mac**, consider adding this to **HOME/.bash_profile**
@@ -67,7 +67,7 @@ alias drdocker='open -a /Applications/Docker.app/Contents/MacOS/Docker'
 # Start  XQuartz, if it is not running
 alias drx='open -a XQuartz; xhost + `ipconfig getifaddr en1`'
 # Alias the docker run command
-alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name ubuntu_relax tlinnet/docker_relax'
+alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name ubuntu_relax tlinnet/docker_relax'
 ```
 
 # Installed programs
@@ -144,7 +144,11 @@ dr analysis
 ## Jupyter notebook <a name="Jupyter"></a>
 
 ```bash
-dr jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0
+# First run docker with port 8888:8888
+docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name ubuntu_relax docker_relax
+
+# Then run jupyter
+jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0
 ```
 And copy the URL and token to your browser.
 
@@ -156,42 +160,6 @@ Pymol can not run with graphical content.<br>
 ```bash
 dr pymol -c
 ```
-
-But you can run ipymol in Jupyter.
- 
-* [How to run](https://github.com/mwojcikowski/iPyMol)
-* [pip package info](https://pypi.python.org/pypi/ipymol)
-* [Jupyter example.](http://nbviewer.ipython.org/urls/raw.github.com/cxhernandez/iPyMol/master/examples/Example1.ipynb)
-
-First try this command. It should start pymol in server mode, and will not change.
-
-```bash
-dr pymol -cKRQ
-```
-
-Then start jupyter instead
-
-```bash
-dr jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0
-```
-
-And copy the URL and token to your browser. <br>
-Start a notebook, and put this in. <br>
-Click "Shift+Enter"
-
-```python
-from multiprocessing import Process
-def f(cmd):
-    import os
-    os.system(cmd)
-p=Process(target=f,args=('pymol -Rqcp',)) #-Rqcp if you don't want the PyMol GUI
-p.start()
-
-from ipymol import viewer as pymol
-pymol.start()
-```
-Hmm. This does not seem to work..
-
 
 # Developer <a name="Developer"></a>
 
@@ -210,15 +178,15 @@ docker build -t docker_relax .
 
 # Run it
 ## On Linux
-docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name ubuntu_relax docker_relax
+docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name ubuntu_relax docker_relax
 
 ## On mac. Check to use either en0 or en1.
 xhost + `ipconfig getifaddr en1`
 
-docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name ubuntu_relax docker_relax
+docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name ubuntu_relax docker_relax
 
 # To run with privileged 
-docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --device /dev/dri --privileged -p 8888:8888 --name ubuntu_relax docker_relax
+docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --device /dev/dri --privileged --name ubuntu_relax docker_relax
 ```
 
 Delete container and images. This will destroy all your images and containers. <br>
