@@ -317,5 +317,20 @@ ENV PYTHONPATH=.:${CCPNMR_TOP_DIR}/ccpnmr2.1/python
 #    tar xvf format2.4.0.tar.gz && \
 #    mv ccpnmr ccpnmr_format
 
+# build pymol
+# https://pymolwiki.org/index.php/Linux_Install
+RUN cd $HOME && \
+    mkdir -p $HOME/software && \
+    cd $HOME/software && \
+    svn co svn://svn.code.sf.net/p/pymol/code/trunk/pymol
+RUN cd $HOME && \
+    cd $HOME/software/pymol && \
+    prefix=$HOME/software/pymol-svn && \
+    modules=$prefix/modules && \
+    python2.7 setup.py build install --home=$prefix --install-lib=$modules --install-scripts=$prefix
+RUN cd $HOME && \
+    cd $HOME/software/pymol
+
+
 # Modify PATH.
 ENV PATH="$HOME/bin:${PATH}"
