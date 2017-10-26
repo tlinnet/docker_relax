@@ -9,8 +9,8 @@ Docker image for building NMR software on Ubuntu
 * [nmrglue](https://www.nmrglue.com/) -> [Jump to commands](#nmrglue)
 * Art Palmers software: [ModelFree4](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/modelfree), [FastModelFree](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/modelfree), [Quadric](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/quadric-diffusion), [PDBinertia](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/pdbinertia) -> [Jump to commands](#Palmer)
 * [Sparky](http://www.cgl.ucsf.edu/home/sparky) -> [Jump to commands](#Sparky)
-* [CcpNmr Analysis 2.4](http://www.ccpn.ac.uk/v2-software/downloads)  -> [Jump to commands](#Analysis)
-* [Pymol](https://pymolwiki.org/index.php/Main_Page)
+* [CcpNmr Analysis 2.4](http://www.ccpn.ac.uk/v2-software/downloads) -> [Jump to commands](#Analysis)
+* [Pymol](https://pymolwiki.org/index.php/Main_Page)-> [Jump to commands](#Pymol)
 
 For deleting images, go to -> [Developer section](#Developer)
 
@@ -20,9 +20,22 @@ docker pull tlinnet/docker_relax
 docker images
 ```
 
-## Running on a mac
+# Running docker with image
 
 [Link to run reference:](https://docs.docker.com/v1.11/engine/reference/commandline/run)
+
+```bash
+# See images on machine
+docker images
+```
+
+## Running on linux
+
+```bash
+alias dr='docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name ubuntu_relax docker_relax'
+```
+
+## Running on a mac
 
 ```bash
 # First make sure XQuartz is running
@@ -37,14 +50,15 @@ xhost + `ipconfig getifaddr en1`
 alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name ubuntu_relax tlinnet/docker_relax'
 ```
 
-Then try to run programs after making the **dr** alias:
+## Easy run of docker by adding alias to shell profile file
+To make this easier on a **linux**, consider adding this to **HOME/.bash_profile**
 
 ```bash
-# Start relax
-dr relax
+# Alias the docker run command
+alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name ubuntu_relax tlinnet/docker_relax'
 ```
 
-To make this easier, consider adding this to **HOME/.bash_profile**
+To make this easier on a **mac**, consider adding this to **HOME/.bash_profile**
 
 ```bash
 # Start docker, if it is not running
