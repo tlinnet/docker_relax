@@ -10,6 +10,9 @@ Includes builded software for:
 * [nmrglue](https://www.nmrglue.com/)
 * [Art Palmers Quadric](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/quadric-diffusion)
 * [Art Palmers PDBinertia](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/pdbinertia)
+* [Art Palmers FastModelFree](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/modelfree)
+* [Sparky](http://www.cgl.ucsf.edu/home/sparky)
+
 
 # Get prebuild image:
 ```bash
@@ -132,6 +135,21 @@ dr r2r1_tm
 ```bash
 dr pdbinertia
 ```
+
+## Art Palmers FastModelFree
+* [Art Palmers FastModelFree](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/modelfree)
+
+```bash
+dr setupFMF
+```
+
+## Sparky
+* [Sparky](http://www.cgl.ucsf.edu/home/sparky)
+
+```bash
+dr sparky
+```
+
 
 # Delete container and images
 This will destroy all your images and containers. **It will not be possible to restore them!**
