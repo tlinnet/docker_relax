@@ -20,7 +20,7 @@ docker pull tlinnet/docker_relax
 docker images
 ```
 
-# Running docker with image
+# Running docker with image <a name="run"></a>
 
 [Link to run reference:](https://docs.docker.com/v1.11/engine/reference/commandline/run)
 
@@ -29,13 +29,13 @@ docker images
 docker images
 ```
 
-## Running on linux
+## Running on linux <a name="runlinux"></a>
 
 ```bash
 alias dr='docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name ubuntu_relax docker_relax'
 ```
 
-## Running on a mac
+## Running on a mac <a name="runmac"></a>
 
 ```bash
 # First make sure XQuartz is running
@@ -143,8 +143,11 @@ dr analysis
 ## Pymol <a name="Pymol"></a>
 * [Pymol](https://pymolwiki.org/index.php/Main_Page)
 
+Pymol can not run with graphical content.<br>
+
+
 ```bash
-dr pymol
+dr pymol -c
 ```
 
 
@@ -169,7 +172,11 @@ docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD
 
 ## On mac. Check to use either en0 or en1.
 xhost + `ipconfig getifaddr en1`
+
 docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name ubuntu_relax docker_relax
+
+# To run with priviled
+docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --device /dev/dri --privileged --name ubuntu_relax docker_relax
 ```
 
 Delete container and images. This will destroy all your images and containers. <br>
@@ -179,6 +186,7 @@ Delete container and images. This will destroy all your images and containers. <
 # Delete all containers:
 docker ps
 docker rm $(docker ps -a -q)
+docker rm --force $(docker ps -a -q)
 
 # Delete all dangling images
 docker images -f dangling=true
