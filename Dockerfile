@@ -13,7 +13,7 @@ RUN apt-get update
 # General packages
 RUN apt-get update && \
     apt-get install -y \
-        lynx htop curl wget unzip tcsh subversion
+        lynx htop curl wget unzip tcsh subversion sudo
 
 # For relax
 RUN apt-get update && \
@@ -127,6 +127,8 @@ RUN cd $HOME && \
 # -m : Create the home directory if it does not exist.
 # -s : User's login shell, which defaults to /bin/bash
 RUN useradd -ms /bin/bash developer
+RUN adduser developer sudo
+RUN echo "developer:passwd" | chpasswd
 USER developer
 RUN mkdir -p $HOME/work
 WORKDIR /home/developer/work
@@ -140,7 +142,7 @@ RUN mkdir -p $HOME/.local/share
 RUN cd $HOME && \
     mkdir -p $HOME/software && \
     cd $HOME/software && \
-    git clone git://git.code.sf.net/p/nmr-relax/code relax && \
+    git clone --depth 1 https://github.com/nmr-relax/relax.git relax && \
     cd $HOME/software/relax && \
     git pull && \
     scons && \
