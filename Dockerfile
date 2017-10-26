@@ -15,7 +15,8 @@ RUN apt-get update && \
         subversion git scons grace \        
         openmpi-bin openmpi-doc libopenmpi-dev \
         python-numpy python-scipy python-matplotlib python-pip python-wxgtk3.0 \
-        python-pandas python-pyside 
+        python-pandas python-pyside \
+        tk
 
 # NMRPipe
 # http://www.lorieau.com/nmr/2015/04/15/NMRPipe-ubuntu14.04.html
@@ -141,7 +142,6 @@ RUN cd $HOME && \
     cd $HOME/software/NMRPipe && \
     touch /home/developer/.cshrc && \
     ./install.com
-
 # Made from: source /home/developer/software/NMRPipe/com/nmrInit.linux212_64.com
 ENV NMRBASE=/home/developer/software/NMRPipe
 ENV PATH="$NMRBASE/nmrbin.linux212_64:$NMRBASE/com:${PATH}"
@@ -198,11 +198,10 @@ RUN cd $HOME && \
 RUN cd $HOME && \
     cd $HOME/software/mddnmr && \
     ./Install
-
 # Set environment for MddNMR
+ENV PATH=".:${PATH}:$MDD_NMRbin:${MDD_NMR}/com"
 ENV MDD_NMR=/home/developer/software/mddnmr 
 ENV MDD_NMRbin=${MDD_NMR}/binCentOS64Static 
-ENV PATH=".:${PATH}:$MDD_NMRbin:${MDD_NMR}/com"
 
 # Add Palmers Quadric
 # http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/quadric-diffusion
@@ -230,6 +229,45 @@ RUN cd $HOME && \
     mv linux $HOME/software/pdbinertia && \
     ln -s $HOME/software/pdbinertia/linux_64/pdbinertia $HOME/bin/pdbinertia && \
     cd $HOME
+
+# Add Palmers FastModelFree
+# http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/modelfree
+RUN cd $HOME && \
+    echo "Installing Palmers FastModelFree" && \
+    mkdir -p $HOME/Downloads && \
+    cd $HOME/Downloads && \
+    curl -O http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/modelfree/FASTModelFree.zip && \
+    unzip FASTModelFree.zip && \
+    mkdir -p $HOME/software && \
+    mv FASTModelFree $HOME/software/FASTModelFree && \
+    ln -s $HOME/software/FASTModelFree/setupFMF $HOME/bin/setupFMF && \
+    cd $HOME
+
+# Sparky - NMR Assignment and Integration Software
+# http://www.cgl.ucsf.edu/home/sparky/
+RUN cd $HOME && \
+    echo "Installing SPARKY" && \
+    mkdir -p $HOME/Downloads && \
+    cd $HOME/Downloads && \
+    curl -O http://www.cgl.ucsf.edu/home/sparky/distrib-3.115/sparky-linux2.6-64bit.tar.gz && \
+    tar -xzf sparky-linux2.6-64bit.tar.gz && \
+    mv sparky $HOME/software/sparky
+# Set environment for sparky
+ENV PATH="${PATH}:/home/developer/software/sparky/bin"
+ENV SPARKYHOME=/home/developer/work
+
+# CcpNmr Analysis
+# http://www.ccpn.ac.uk/v2-software/software/analysis
+# http://www.ccpn.ac.uk/v3-software/downloads/beta-downloads
+# http://www.ccpn.ac.uk/v2-software/downloads
+RUN cd $HOME && \
+    echo "Installing SPARKY" && \
+    mkdir -p $HOME/Downloads && \
+    cd $HOME/Downloads && \
+    curl -O http://www2.ccpn.ac.uk/download/ccpnmr/analysis2.4.2_ubuntu16.tgz
+#RUN cd $HOME && \
+#    cd $HOME/Downloads && \
+#    tar xvf analysis2.4.2_ubuntu16.tgz && \
 
 # Modify PATH.
 ENV PATH="/home/developer/bin:${PATH}"
