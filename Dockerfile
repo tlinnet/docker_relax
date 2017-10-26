@@ -367,8 +367,8 @@ RUN cd $HOME && \
     modules=$prefix/modules && \
     python2.7 setup.py build install --home=$prefix --install-lib=$modules --install-scripts=$prefix
 RUN cd $HOME && \
-    cd $HOME/software/pymol
-
+    cd $HOME/bin && \
+    ln -s $HOME/software/pymol-svn/pymol pymol
 
 # Modify PATH.
 ENV PATH="$HOME/bin:${PATH}"

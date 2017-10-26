@@ -10,6 +10,7 @@ Docker image for building NMR software on Ubuntu
 * Art Palmers software: [ModelFree4](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/modelfree), [FastModelFree](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/modelfree), [Quadric](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/quadric-diffusion), [PDBinertia](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/pdbinertia) -> [Jump to commands](#Palmer)
 * [Sparky](http://www.cgl.ucsf.edu/home/sparky) -> [Jump to commands](#Sparky)
 * [CcpNmr Analysis 2.4](http://www.ccpn.ac.uk/v2-software/downloads) -> [Jump to commands](#Analysis)
+* [Jupyter notebook](http://jupyter.org)-> [Jump to commands](#Jupyter)
 * [Pymol](https://pymolwiki.org/index.php/Main_Page)-> [Jump to commands](#Pymol)
 
 For deleting images, go to -> [Developer section](#Developer)
@@ -156,7 +157,19 @@ Pymol can not run with graphical content.<br>
 dr pymol -c
 ```
 
-But you can run ipymol in Jupyter. [See  this example.](http://nbviewer.ipython.org/urls/raw.github.com/cxhernandez/iPyMol/master/examples/Example1.ipynb)
+But you can run ipymol in Jupyter.
+ 
+* [How to run](https://github.com/mwojcikowski/iPyMol)
+* [pip package info](https://pypi.python.org/pypi/ipymol)
+* [Jupyter example.](http://nbviewer.ipython.org/urls/raw.github.com/cxhernandez/iPyMol/master/examples/Example1.ipynb)
+
+First try this command. It should start pymol in server mode, and will not change.
+
+```bash
+dr pymol -cKRQ
+```
+
+Then start jupyter instead
 
 ```bash
 dr jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0
@@ -167,11 +180,17 @@ Start a notebook, and put this in. <br>
 Click "Shift+Enter"
 
 ```python
+from multiprocessing import Process
+def f(cmd):
+    import os
+    os.system(cmd)
+p=Process(target=f,args=('pymol -Rqcp',)) #-Rqcp if you don't want the PyMol GUI
+p.start()
+
 from ipymol import viewer as pymol
 pymol.start()
-pymol.fetch('4MBS')
 ```
-
+Hmm. This does not seem to work..
 
 
 # Developer <a name="Developer"></a>
