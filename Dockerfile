@@ -33,7 +33,7 @@ RUN apt-get update && \
         libxext6:i386 xfonts-75dpi  default-jre default-jdk
 
 # msttcorefonts has License terms, which needs to be accepted
-RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections && \
+RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
 RUN apt-get update && \
     apt-get install -y \
         msttcorefonts
