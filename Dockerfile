@@ -261,18 +261,35 @@ RUN cd $HOME && \
 ENV PATH="${PATH}:/home/developer/software/sparky/bin"
 ENV SPARKYHOME=/home/developer/Sparky
 
-# CcpNmr Analysis
+# CcpNmr Analysis 2.4
 # http://www.ccpn.ac.uk/v2-software/software/analysis
 # http://www.ccpn.ac.uk/v3-software/downloads/beta-downloads
 # http://www.ccpn.ac.uk/v2-software/downloads
 RUN cd $HOME && \
-    echo "Installing SPARKY" && \
+    echo "Installing CcpNmr Analysis 2.4" && \
     mkdir -p $HOME/Downloads && \
     cd $HOME/Downloads && \
-    curl -O http://www2.ccpn.ac.uk/download/ccpnmr/analysis2.4.2_ubuntu16.tgz
-#RUN cd $HOME && \
-#    cd $HOME/Downloads && \
-#    tar xvf analysis2.4.2_ubuntu16.tgz && \
+    curl -O http://www2.ccpn.ac.uk/download/ccpnmr/analysis2.4.2_linux64.tgz
+#curl -O http://www2.ccpn.ac.uk/download/ccpnmr/analysis2.4.2_ubuntu16.tgz
+RUN cd $HOME && \
+    cd $HOME/Downloads && \
+    tar xvf analysis2.4.2_linux64.tgz
+#tar xvf analysis2.4.2_ubuntu16.tgz
+RUN cd $HOME && \
+    cd $HOME/Downloads && \
+    mv ccpnmr $HOME/software/ccpnmr
+# Set environment for analysis
+ENV CCPNMR_TOP_DIR=/home/developer/software/ccpnmr
+ENV PATH="${CCPNMR_TOP_DIR}/bin:${PATH}"
+ENV PYTHONPATH=.:${CCPNMR_TOP_DIR}/ccpnmr2.1/python
+
+RUN cd $HOME && \
+    echo "Installing CcpNmr Analysis format convert" && \
+    mkdir -p $HOME/Downloads && \
+    cd $HOME/Downloads && \
+    curl -O http://www2.ccpn.ac.uk/download/ccpnmr/format2.4.0.tar.gz && \
+    tar xvf format2.4.0.tar.gz && \
+    mv ccpnmr ccpnmr_format
 
 # Modify PATH.
 ENV PATH="/home/developer/bin:${PATH}"
