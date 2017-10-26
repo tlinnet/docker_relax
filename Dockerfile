@@ -80,14 +80,28 @@ RUN apt-get update && \
 #    rm NVIDIA-Linux-x86_64-375.20.run
 #RUN glxgears
 
+# For python3
+RUN apt-get update && \
+    apt-get install -y \
+        python3-pip
+
 # Upgrade pip
 RUN pip install --upgrade pip
-
 # Install python packages with pip
 RUN pip install \
         mpi4py \
-        epydoc \
-        jupyter 
+        epydoc
+RUN pip install \
+        jupyter \
+        ipykernel
+
+# Upgrade pip3
+RUN pip3 install --upgrade pip
+# Install python3 packages with pip3
+RUN pip3 install \
+        jupyter \
+        ipymol
+RUN ipython3 kernel install
 
 # Install relax python pagkages
 # current version of minfx
@@ -227,7 +241,7 @@ ENV PDBH_TAB=$PDBH_BASE/resolution.tab
 # MddNMR
 # http://mddnmr.spektrino.com/download
 RUN cd $HOME && \
-    echo "Installing MddNMR" && \
+    echo "Installing MddNMR " && \
     mkdir -p $HOME/Downloads && \
     cd $HOME/Downloads && \
     curl -L -O https://github.com/tlinnet/docker_relax/raw/master/mddnmr2.5.tgz
@@ -324,12 +338,8 @@ RUN cd $HOME && \
 
 RUN cd $HOME && \
     cd $HOME/Downloads && \
-    tar xvf analysis2.4.2_linux64.tgz
+    tar xvf analysis2.4.2_linux64.tgz -C $HOME/software
 #tar xvf analysis2.4.2_ubuntu16.tgz
-
-RUN cd $HOME && \
-    cd $HOME/Downloads && \
-    mv ccpnmr $HOME/software/ccpnmr
 
 # Set environment for analysis
 ENV CCPNMR_TOP_DIR=$HOME/software/ccpnmr
@@ -359,5 +369,8 @@ RUN cd $HOME && \
 RUN cd $HOME && \
     cd $HOME/software/pymol
 
+
 # Modify PATH.
 ENV PATH="$HOME/bin:${PATH}"
+# Expose to run jupyter notebook
+EXPOSE 8888
