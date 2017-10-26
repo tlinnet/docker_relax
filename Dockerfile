@@ -252,9 +252,14 @@ RUN cd $HOME && \
     curl -O http://www.cgl.ucsf.edu/home/sparky/distrib-3.115/sparky-linux2.6-64bit.tar.gz && \
     tar -xzf sparky-linux2.6-64bit.tar.gz && \
     mv sparky $HOME/software/sparky
+RUN cd $HOME && \
+    mkdir -p $HOME/Sparky && \
+    mkdir -p $HOME/Sparky/Projects && \
+    mkdir -p $HOME/Sparky/Save && \
+    mkdir -p $HOME/Sparky/Lists
 # Set environment for sparky
 ENV PATH="${PATH}:/home/developer/software/sparky/bin"
-ENV SPARKYHOME=/home/developer/work
+ENV SPARKYHOME=/home/developer/Sparky
 
 # CcpNmr Analysis
 # http://www.ccpn.ac.uk/v2-software/software/analysis
