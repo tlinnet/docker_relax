@@ -12,7 +12,7 @@ Includes builded software for:
 * [Art Palmers PDBinertia](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/pdbinertia)
 * [Art Palmers FastModelFree](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/modelfree)
 * [Sparky](http://www.cgl.ucsf.edu/home/sparky)
-
+* [CcpNmr Analysis 2.4](http://www.ccpn.ac.uk/v2-software/downloads)
 
 # Get prebuild image:
 ```bash
@@ -150,6 +150,12 @@ dr setupFMF
 dr sparky
 ```
 
+## CcpNmr Analysis 2.4 
+* [CcpNmr Analysis 2.4](http://www.ccpn.ac.uk/v2-software/downloads)
+
+```bash
+dr analysis
+```
 
 # Delete container and images
 This will destroy all your images and containers. **It will not be possible to restore them!**
