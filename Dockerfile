@@ -46,7 +46,7 @@ RUN apt-get update && \
 # For other python packages
 RUN apt-get update && \
     apt-get install -y \
-        python-pandas
+        python-pandas ipython ipython-notebook
 
 # For pymol, and build
 RUN apt-get update && \
@@ -55,13 +55,39 @@ RUN apt-get update && \
         subversion build-essential python-dev python-pmw libglew-dev \
         freeglut3-dev libpng-dev libfreetype6-dev libxml2-dev
 
+# For graphic drivers
+# Variable, so question for keyboard is not asked
+# https://stackoverflow.com/questions/39085462/xdummy-in-docker-container
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update && \
+    apt-get install -y \
+        mesa-utils \
+        x11-apps xserver-xorg-core xorg
+#RUN dpkg-reconfigure xserver-xorg
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y \
+        nvidia-340
+
+# https://www.geforce.com/drivers/results/111596
+#RUN apt-get update && \
+#    apt-get install -y \
+#        binutils module-init-tools
+#RUN cd $HOME && \
+#    curl -O https://us.download.nvidia.com/XFree86/Linux-x86_64/375.20/NVIDIA-Linux-x86_64-375.20.run && \
+#    chmod +x NVIDIA-Linux-x86_64-375.20.run
+#RUN cd $HOME && \
+#    sh NVIDIA-Linux-x86_64-375.20.run -a -N --ui=none --no-kernel-module  && \
+#    rm NVIDIA-Linux-x86_64-375.20.run
+#RUN glxgears
+
 # Upgrade pip
 RUN pip install --upgrade pip
 
 # Install python packages with pip
 RUN pip install \
         mpi4py \
-        epydoc
+        epydoc \
+        jupyter 
 
 # Install relax python pagkages
 # current version of minfx
@@ -330,7 +356,6 @@ RUN cd $HOME && \
     python2.7 setup.py build install --home=$prefix --install-lib=$modules --install-scripts=$prefix
 RUN cd $HOME && \
     cd $HOME/software/pymol
-
 
 # Modify PATH.
 ENV PATH="$HOME/bin:${PATH}"
