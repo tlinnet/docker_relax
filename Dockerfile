@@ -8,7 +8,7 @@ FROM ubuntu:16.04
 # can be created from any point in an images history, much like source control.
 
 # Update packages
-RUN apt-get update
+RUN apt-get update && apt-get upgrade
 
 # General packages
 RUN apt-get update && \
