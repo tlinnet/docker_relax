@@ -24,10 +24,16 @@ RUN cd $HOME && \
     echo "python $HOME/software/mMass/mmass.py" >> mmass && \
     chmod +x mmass
 
-
 # Fix according to http://forum.mmass.org/viewtopic.php?id=274
 RUN cd $HOME && \
     cd $HOME/software/mMass && \
     curl -O https://gist.githubusercontent.com/tlinnet/2c3c4e65e91a3f338ca93487c282f932/raw/e987c03c0abc9ba62ff86a7d47c7d00d99efb132/0001-Making-patch-according-to-http-forum.mmass.org-viewt.patch && \
     git apply 0001-Making-patch-according-to-http-forum.mmass.org-viewt.patch && \
     echo ""
+
+# Convert massspec files
+# https://hub.docker.com/r/suchja/wine/
+# https://github.com/phnmnl/container-pwiz
+# https://github.com/sneumann/pwiz-appliance
+# https://github.com/jmchilton/proteomics-wine-env
+# https://github.com/BioContainers/specs/issues/64
