@@ -12,32 +12,26 @@ Docker image for NMR software. Running on Ubuntu 16.04 LTS.
 * [CcpNmr Analysis 2.4](http://www.ccpn.ac.uk/v2-software/downloads) -> [Jump to commands](#Analysis)
 * [Jupyter notebook](http://jupyter.org)-> [Jump to commands](#Jupyter)
 * [Pymol](https://pymolwiki.org/index.php/Main_Page)-> [Jump to commands](#Pymol)
+* [mMass Mass Spectrometry Tool](http://mmass.org/)-> [Jump to commands](#mmass)
 
 For deleting images, go to -> [Developer section](#Developer)
-
 # Get prebuild image:
 ```bash
 docker pull tlinnet/relax
 docker images
 ```
-
 # Running docker with image <a name="run"></a>
-
 [Link to run reference:](https://docs.docker.com/v1.11/engine/reference/commandline/run)
 
 ```bash
 # See images on machine
 docker images
 ```
-
 ## Running on linux <a name="runlinux"></a>
-
 ```bash
 alias dr='docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax tlinnet/relax'
 ```
-
 ## Running on a mac <a name="runmac"></a>
-
 ```bash
 # First make sure XQuartz is running
 open -a XQuartz
@@ -50,7 +44,6 @@ xhost + `ipconfig getifaddr en1`
 # Then make alias and run. Set 'en1' to either en1 or en0, depending which returns IP.
 alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax tlinnet/relax'
 ```
-
 ## Easy run of docker by adding alias to shell profile file
 To make this easier on a **linux**, consider adding this to **HOME/.bash_profile**
 
@@ -69,11 +62,9 @@ alias drx='open -a XQuartz; xhost + `ipconfig getifaddr en1`'
 # Alias the docker run command
 alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax tlinnet/relax'
 ```
-
 # Installed programs
 ## relax with OpenDX <a name="relax"></a>
 * [relax](http://www.nmr-relax.com/) with [OpenDX](http://wiki.nmr-relax.com/OpenDX)
-
 
 ```bash
 # Start relax in GUI
@@ -98,7 +89,6 @@ mpirun --report-bindings -np 2 echo "hello world"
 dr
 nmrDraw
 ```
-
 ## MddNMR <a name="MddNMR"></a>
 * [MddNMR](http://mddnmr.spektrino.com/download)
 
@@ -113,9 +103,7 @@ qMDD
 ```bash
 dr python -c "import nmrglue; print nmrglue.__version__"
 ```
-
 ## Art Palmers software <a name="Palmer"></a>
-
 * Art Palmers: [ModelFree4](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/modelfree), [FastModelFree](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/modelfree), [Quadric](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/quadric-diffusion), [PDBinertia](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/pdbinertia)
 
 ```bash
@@ -132,23 +120,19 @@ dr r2r1_tm
 # PDBinertia
 dr pdbinertia
 ```
-
 ## Sparky <a name="Sparky"></a>
 * [Sparky](http://www.cgl.ucsf.edu/home/sparky)
 
 ```bash
 dr sparky
 ```
-
 ## CcpNmr Analysis 2.4 <a name="Analysis"></a>
 * [CcpNmr Analysis 2.4](http://www.ccpn.ac.uk/v2-software/downloads)
 
 ```bash
 dr analysis
 ```
-
 ## Jupyter notebook <a name="Jupyter"></a>
-
 ```bash
 # First run docker with port 8888:8888
 docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name relax tlinnet/relax
@@ -156,8 +140,6 @@ docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tm
 # Then run jupyter from terminal and copy the URL+token to your browser.
 jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0
 ```
-
-
 ## Pymol <a name="Pymol"></a>
 * [Pymol](https://pymolwiki.org/index.php/Main_Page)
 
@@ -166,7 +148,14 @@ Pymol can not run with graphical content.<br>
 ```bash
 dr pymol -c
 ```
+## mMass <a name="mmass"></a>
+* [mMass Mass Spectrometry Tool](http://mmass.org/)-> [Jump to commands](#mmass)
 
+GUI for working with Mass Spectrometry
+
+```bash
+dr mmass
+```
 # Developer <a name="Developer"></a>
 
 To open a bash terminal in the container, when it is running
@@ -174,9 +163,7 @@ To open a bash terminal in the container, when it is running
 ```bash
 docker exec -it relax bash
 ```
-
 ## Build own image.
-
 [Link to build reference:](https://docs.docker.com/v1.11/engine/reference/commandline/build)
 
 This will build 6 docker images, chained after each other.
@@ -189,11 +176,9 @@ This is to save time in the building phase.
 5. Setup Palmers software, Sparky and Analysis
 6. Build the main Dockerfile, with relax updated last
 
-
 ```bash
 source build_Dockerfile.sh
 ```
-
 Run it with:
 
 ```bash
@@ -204,7 +189,6 @@ docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD
 xhost + `ipconfig getifaddr en1`
 docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax tlinnet/relax
 ```
-
 Delete container and images. This will destroy all your images and containers. <br>
 **It will not be possible to restore them!**
 
@@ -222,8 +206,6 @@ docker rmi $(docker images -qf dangling=true)
 docker images
 docker rmi $(docker images -q)
 ```
-
-
 ### References
 * <http://fabiorehm.com/blog/2014/09/11/running-gui-apps-with-docker> <br>
 * <https://blog.jessfraz.com/post/docker-containers-on-the-desktop>
