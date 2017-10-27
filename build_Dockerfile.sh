@@ -21,6 +21,10 @@ alias dr4='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X
 docker build -t tlinnet/relax:05 -f Dockerfile_05_Palmer_Sparky_Analysis_PyMOL .
 alias dr5='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax05 tlinnet/relax:05'
 
+# Build with mmass
+docker build -t tlinnet/relax:06 -f Dockerfile_06_mmass .
+alias dr6='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax06 tlinnet/relax:06'
+
 # Build base image with packages and relax
 docker build -t tlinnet/relax  .
 alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax tlinnet/relax'
