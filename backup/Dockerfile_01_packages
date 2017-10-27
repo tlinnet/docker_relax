@@ -1,0 +1,76 @@
+# https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/
+
+FROM ubuntu:16.04
+
+# Layering RUN instructions and generating commits conforms to the
+# core concepts of Docker where commits are cheap and containers
+# can be created from any point in an images history, much like source control.
+
+# Possible minimise install
+# https://www.dajobe.org/blog/2015/04/18/making-debian-docker-images-smaller/   
+
+# Update packages
+RUN apt-get update
+
+# General packages
+RUN apt-get update && \
+    apt-get install -y \
+        lynx htop curl wget unzip tcsh subversion sudo
+
+# For relax
+RUN apt-get update && \
+    apt-get install -y \
+        git scons grace dx \        
+        openmpi-bin openmpi-doc libopenmpi-dev \
+        python-numpy python-scipy python-matplotlib python-pip python-wxgtk3.0
+
+# NMRPipe
+# http://www.lorieau.com/nmr/2015/04/15/NMRPipe-ubuntu14.04.html
+# https://www.ibbr.umd.edu/nmrpipe/install.html
+RUN dpkg --add-architecture i386
+RUN apt-get update && \
+    apt-get install -y \
+        csh \
+        libc6:i386 libstdc++6:i386 libx11-6:i386 \
+        libxext6:i386 xfonts-75dpi  default-jre default-jdk
+
+# msttcorefonts has License terms, which needs to be accepted
+RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
+RUN apt-get update && \
+    apt-get install -y \
+        msttcorefonts
+
+# For MddNMR
+RUN apt-get update && \
+    apt-get install -y \
+         python-pyside gawk
+
+# For other python packages
+RUN apt-get update && \
+    apt-get install -y \
+        python-pandas ipython ipython-notebook
+
+# For pymol, and build
+RUN apt-get update && \
+    apt-get install -y \
+        pymol \
+        subversion build-essential python-dev python-pmw libglew-dev \
+        freeglut3-dev libpng-dev libfreetype6-dev libxml2-dev
+
+# For graphic drivers
+# Variable, so question for keyboard is not asked
+# https://stackoverflow.com/questions/39085462/xdummy-in-docker-container
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update && \
+    apt-get install -y \
+        mesa-utils \
+        x11-apps xserver-xorg-core xorg
+#RUN dpkg-reconfigure xserver-xorg
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y \
+        nvidia-340
+
+# For python3
+RUN apt-get update && \
+    apt-get install -y \
+        python3-pip
