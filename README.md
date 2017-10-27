@@ -1,5 +1,5 @@
 # Docker for NMR software
-Docker image for building NMR software on Ubuntu
+Docker image for NMR software. Running on Ubuntu 16.04 LTS.
 
 **Includes builded software for:**
 
@@ -17,7 +17,7 @@ For deleting images, go to -> [Developer section](#Developer)
 
 # Get prebuild image:
 ```bash
-docker pull tlinnet/docker_relax
+docker pull tlinnet/relax
 docker images
 ```
 
@@ -33,7 +33,7 @@ docker images
 ## Running on linux <a name="runlinux"></a>
 
 ```bash
-alias dr='docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name ubuntu_relax docker_relax'
+alias dr='docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax tlinnet/relax'
 ```
 
 ## Running on a mac <a name="runmac"></a>
@@ -48,7 +48,7 @@ open -a XQuartz
 xhost + `ipconfig getifaddr en1`
 
 # Then make alias and run. Set 'en1' to either en1 or en0, depending which returns IP.
-alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name ubuntu_relax tlinnet/docker_relax'
+alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax tlinnet/relax'
 ```
 
 ## Easy run of docker by adding alias to shell profile file
@@ -56,7 +56,7 @@ To make this easier on a **linux**, consider adding this to **HOME/.bash_profile
 
 ```bash
 # Alias the docker run command
-alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name ubuntu_relax tlinnet/docker_relax'
+alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax tlinnet/relax'
 ```
 
 To make this easier on a **mac**, consider adding this to **HOME/.bash_profile**
@@ -67,7 +67,7 @@ alias drdocker='open -a /Applications/Docker.app/Contents/MacOS/Docker'
 # Start  XQuartz, if it is not running
 alias drx='open -a XQuartz; xhost + `ipconfig getifaddr en1`'
 # Alias the docker run command
-alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name ubuntu_relax tlinnet/docker_relax'
+alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax tlinnet/relax'
 ```
 
 # Installed programs
@@ -83,23 +83,29 @@ dr relax -g
 dr dx
 
 # Try OpenMPI for running with multiple CPU. Not tested.
-dr mpirun --version
-dr mpirun -np 2 echo "hello world"
-dr mpirun --report-bindings -np 2 echo "hello world"
+# To start into bash
+dr 
+# Then in terminal try
+mpirun --version
+mpirun -np 2 echo "hello world"
+mpirun --report-bindings -np 2 echo "hello world"
 ```
 ## nmrPipe 
 * [NMRPipe](https://www.ibbr.umd.edu/nmrpipe/install.html)
 
 ```bash
 # Start nmrDraw. It apparently takes 1-2 min to open window?
-dr nmrDraw
+dr
+nmrDraw
 ```
 
 ## MddNMR <a name="MddNMR"></a>
 * [MddNMR](http://mddnmr.spektrino.com/download)
 
 ```bash
-dr qMDD
+# First need to start terminal before running qMDD
+dr
+qMDD
 ```
 ## nmrglue <a name="nmrglue"></a>
 * [nmrglue](https://www.nmrglue.com/)
@@ -145,12 +151,12 @@ dr analysis
 
 ```bash
 # First run docker with port 8888:8888
-docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name ubuntu_relax docker_relax
+docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name relax tlinnet/relax
 
-# Then run jupyter
+# Then run jupyter from terminal and copy the URL+token to your browser.
 jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0
 ```
-And copy the URL and token to your browser.
+
 
 ## Pymol <a name="Pymol"></a>
 * [Pymol](https://pymolwiki.org/index.php/Main_Page)
@@ -166,27 +172,37 @@ dr pymol -c
 To open a bash terminal in the container, when it is running
 
 ```bash
-docker exec -it ubuntu_relax bash
+docker exec -it relax bash
 ```
 
-Build own image. [Link to build reference:](https://docs.docker.com/v1.11/engine/reference/commandline/build)
+## Build own image.
+
+[Link to build reference:](https://docs.docker.com/v1.11/engine/reference/commandline/build)
+
+This will build 6 docker images, chained after each other.
+This is to save time in the building phase.
+
+1. Image makes apt-get install of packages
+2. Install python packages with pip
+3. Setup the user "developer" with sudo password: passwd
+4. Setup NMRPipe and qMDD
+5. Setup Palmers software, Sparky and Analysis
+6. Build the main Dockerfile, with relax updated last
+
 
 ```bash
-# -t : --tag=[]  Name and optionally a tag in the 'name:tag' format
-# PATH to Dockerfile
-docker build -t docker_relax .
+source build_Dockerfile.sh
+```
 
-# Run it
+Run it with:
+
+```bash
 ## On Linux
-docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name ubuntu_relax docker_relax
+docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax tlinnet/relax
 
 ## On mac. Check to use either en0 or en1.
 xhost + `ipconfig getifaddr en1`
-
-docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name ubuntu_relax docker_relax
-
-# To run with privileged 
-docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --device /dev/dri --privileged --name ubuntu_relax docker_relax
+docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax tlinnet/relax
 ```
 
 Delete container and images. This will destroy all your images and containers. <br>
