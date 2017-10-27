@@ -1,0 +1,88 @@
+FROM tlinnet/relax:03
+
+# NMRPipe
+# http://www.lorieau.com/nmr/2015/04/15/NMRPipe-ubuntu14.04.html
+# https://www.ibbr.umd.edu/nmrpipe/install.html
+# ./install.com +help to generate a list of install 
+RUN cd $HOME && \
+    echo "Installing NMRPipe" && \
+    mkdir -p $HOME/software/NMRPipe && \
+    cd $HOME/software/NMRPipe && \
+    curl -O https://www.ibbr.umd.edu/nmrpipe/install.com && \
+    curl -O https://www.ibbr.umd.edu/nmrpipe/binval.com && \
+    curl -O https://www.ibbr.umd.edu/nmrpipe/NMRPipeX.tZ && \
+    curl -O https://www.ibbr.umd.edu/nmrpipe/s.tZ && \
+    curl -O https://www.ibbr.umd.edu/nmrpipe/dyn.tZ && \
+    curl -O https://www.ibbr.umd.edu/nmrpipe/talos.tZ && \
+    curl -O https://spin.niddk.nih.gov/bax/software/smile/plugin.smile.tZ && \
+    chmod a+r NMRPipeX.tZ && \
+    chmod a+r s.tZ && \
+    chmod a+r dyn.tZ && \
+    chmod a+r talos.tZ && \
+    chmod a+r plugin.smile.tZ && \
+    chmod a+rx install.com && \
+    chmod a+rx binval.com && \
+    touch $HOME/.cshrc
+RUN cd $HOME && \
+    cd $HOME/software/NMRPipe && \
+    ./install.com
+RUN echo "Completed installation"
+
+# Made from: source $HOME/software/NMRPipe/com/nmrInit.linux212_64.com
+ENV NMRBASE=$HOME/software/NMRPipe
+ENV PATH="$NMRBASE/nmrbin.linux212_64:$NMRBASE/com:${PATH}"
+ENV NMR_IO_TIMEOUT=0
+ENV NMR_IO_SELECT=0
+ENV NMR_AUTOSWAP=1
+ENV NMR_PLUGIN_FN=SMILE
+ENV NMR_PLUGIN_EXE=nusPipe
+ENV NMR_PLUGIN_INFO="-nDim -sample sName ... MD NUS Reconstruction"
+ENV MANPATH=$NMRBASE/man:/usr/share/man:/usr/local/man:${MANPATH}
+ENV MANPATH=$NMRBASE/man:/usr/share/man:/usr/local/man
+ENV LD_LIBRARY_PATH=$NMRBASE/nmrbin.linux212_64/lib:${LD_LIBRARY_PATH}
+#ENV LD_LIBRARY_PATH=$NMRBASE/nmrbin.linux212_64/lib
+ENV OPENWINHOME=$NMRBASE/nmrbin.linux212_64/openwin
+ENV NMR_CHECKARGS=ALL
+ENV NMR_FSCHECK=NO
+ENV NMRBINTYPE=linux212_64
+ENV NMRTXT=$NMRBASE/nmrtxt
+ENV NMRBIN=$NMRBASE/nmrbin.linux212_64
+ENV TCLPATH=$NMRBASE/com
+ENV TALOS_DIR=$NMRBASE/talos
+ENV TALOSP_DIR=$NMRBASE/talosplus
+ENV TALOSN_DIR=$NMRBASE/talosn
+ENV SPARTAP_DIR=$NMRBASE/spartaplus
+ENV PROMEGA_DIR=$NMRBASE/promega
+ENV NMR_TCLTK8=TRUE
+ENV TCL_LIBRARY=$NMRBASE/nmrtcl/tcl8.4
+ENV TK_LIBRARY=$NMRBASE/nmrtcl/tk8.4
+ENV BLT_LIBRARY=$NMRBASE/nmrtcl/blt2.4
+ENV NMRPIPE_TCL_LIB=$NMRBASE/nmrtcl/tcl8.4
+ENV NMRPIPE_TK_LIB=$NMRBASE/nmrtcl/tk8.4
+ENV NMRPIPE_BLT_LIB=$NMRBASE/nmrtcl/blt2.4
+# Made from: source $HOME/software/NMRPipe/dynamo/com/dynInit.com
+ENV DYNAMO_KEY=2002084
+ENV DYNAMO_DIR=$NMRBASE/dynamo
+ENV DYNAMO_PARAMS=$NMRBASE/dynamo/params
+ENV SURF_DIR=$NMRBASE/dynamo/surface
+ENV PDBH_BASE=$NMRBASE/pdb
+ENV PDBH_DIR=$PDBH_BASE/pdbH
+ENV PDBH_LIST=$PDBH_BASE/pdbH.list
+ENV PDBH_TAB=$PDBH_BASE/resolution.tab
+
+# MddNMR
+# http://mddnmr.spektrino.com/download
+RUN cd $HOME && \
+    echo "Installing MddNMR " && \
+    mkdir -p $HOME/Downloads && \
+    cd $HOME/Downloads && \
+    curl -L -O https://github.com/tlinnet/docker_relax/raw/master/mddnmr2.5.tgz && \
+    tar xvf mddnmr2.5.tgz && \
+    mv mddnmr $HOME/software/mddnmr && \
+    cd $HOME/software/mddnmr && \
+    ./Install
+
+# Set environment for MddNMR
+ENV MDD_NMR=$HOME/software/mddnmr 
+ENV MDD_NMRbin=${MDD_NMR}/binCentOS64Static 
+ENV PATH=".:${PATH}:$MDD_NMRbin:${MDD_NMR}/com"

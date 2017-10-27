@@ -1,0 +1,44 @@
+FROM tlinnet/relax:01
+
+# Possible minimise install
+# https://www.dajobe.org/blog/2015/04/18/making-debian-docker-images-smaller/
+ENV PIP_PACKAGES=""
+ENV PIP3_PACKAGES=""
+
+# For python2
+ENV PIP_PACKAGES="$PIP_PACKAGES epydoc jupyter ipykernel"
+
+# For python3
+ENV PIP3_PACKAGES="$PIP3_PACKAGES ipymol"
+
+# Install
+RUN echo "" && \
+    pip install setuptools && \
+    pip3 install --upgrade pip && \
+    pip3 install setuptools && \
+    pip2 install --upgrade pip && \
+    pip install $PIP_PACKAGES && \
+    pip install mpi4py
+RUN echo "" && \
+    pip3 install $PIP_PACKAGES && \
+    ipython3 kernel install && \
+    pip3 install $PIP3_PACKAGES
+#    pip3 install mpi4py
+
+# Install relax python pagkages
+# current version of minfx and bmrblib and nmrglue
+RUN echo "" && \
+    VMIN=`lynx -dump "http://wiki.nmr-relax.com/Template:Current_version_minfx" | grep -A 10 "Template:Current version minfx" | grep -B 1 "Retrieved from" | head -n 1 | tr -d '[[:space:]]'` && \
+    echo "Installing current version of minfx: $VMIN" && \
+    pip install https://iweb.dl.sourceforge.net/project/minfx/$VMIN/minfx-$VMIN.tar.gz && \
+    pip3 install https://iweb.dl.sourceforge.net/project/minfx/$VMIN/minfx-$VMIN.tar.gz && \
+    echo "" && \
+    VBMR=`lynx -dump "http://wiki.nmr-relax.com/Template:Current_version_bmrblib" | grep -A 10 "Template:Current version bmrblib" | grep -B 1 "Retrieved from" | head -n 1 | tr -d '[[:space:]]'` && \
+    echo "Installing current version of bmrblib: $VBMR" && \
+    pip install https://iweb.dl.sourceforge.net/project/bmrblib/$VBMR/bmrblib-$VBMR.tar.gz && \
+    pip3 install https://iweb.dl.sourceforge.net/project/bmrblib/$VBMR/bmrblib-$VBMR.tar.gz && \
+    echo "" && \
+    NGLUE=`curl -s https://api.github.com/repos/jjhelmus/nmrglue/releases/latest | grep "browser_download_url" | cut -d: -f2,3 | tr -d \" ` && \
+    echo "Installing current version of nmrglue: $NGLUE" && \
+    pip install $NGLUE && \
+    pip3 install $NGLUE

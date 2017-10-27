@@ -1,0 +1,100 @@
+FROM tlinnet/relax:04
+
+# Add Palmers Modelfree
+# http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/modelfree
+# Add Palmers FastModelFree
+# http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/modelfree
+# Add Palmers Quadric
+# http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/quadric-diffusion
+# Add Palmers PDBinertia
+# http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/quadric-diffusion
+RUN cd $HOME && \
+    echo "Installing Palmers Modelfree" && \
+    mkdir -p $HOME/Downloads && \
+    cd $HOME/Downloads && \
+    curl http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/modelfree/modelfree_linux64.tar.gz -o modelfree_linux64.tar.gz && \
+    tar -xzf modelfree_linux64.tar.gz && \
+    mkdir -p $HOME/software && \
+    mv linux64 $HOME/software/modelfree4 && \
+    ln -s $HOME/software/modelfree4/modelfree4 $HOME/bin/modelfree4  && \
+    echo "Installing Palmers FastModelFree" && \
+    mkdir -p $HOME/Downloads && \
+    cd $HOME/Downloads && \
+    curl -O http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/modelfree/FASTModelFree.zip && \
+    unzip FASTModelFree.zip && \
+    mkdir -p $HOME/software && \
+    mv FASTModelFree $HOME/software/FASTModelFree && \
+    ln -s $HOME/software/FASTModelFree/setupFMF $HOME/bin/setupFMF  && \
+    echo "Installing Palmers Quadric" && \
+    mkdir -p $HOME/Downloads && \
+    cd $HOME/Downloads && \
+    curl -O http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/quadric-diffusion/quadric_linux64.tar.gz && \
+    tar -xzf quadric_linux64.tar.gz && \
+    mkdir -p $HOME/software && \
+    mv linux $HOME/software/quadric && \
+    ln -s $HOME/software/quadric/linux_64/quadric_diffusion $HOME/bin/quadric_diffusion && \
+    ln -s $HOME/software/quadric/linux_64/r2r1_tm $HOME/bin/r2r1_tm && \
+    echo "Installing Palmers PDBinertia" && \
+    mkdir -p $HOME/Downloads && \
+    cd $HOME/Downloads && \
+    curl -O http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/pdbinertia/pdbinertia_linux64.tar.gz && \
+    tar -xzf pdbinertia_linux64.tar.gz && \
+    mkdir -p $HOME/software && \
+    mv linux $HOME/software/pdbinertia && \
+    ln -s $HOME/software/pdbinertia/linux_64/pdbinertia $HOME/bin/pdbinertia
+
+# Sparky - NMR Assignment and Integration Software
+# http://www.cgl.ucsf.edu/home/sparky/
+RUN cd $HOME && \
+    echo "Installing SPARKY" && \
+    mkdir -p $HOME/Downloads && \
+    cd $HOME/Downloads && \
+    curl -O http://www.cgl.ucsf.edu/home/sparky/distrib-3.115/sparky-linux2.6-64bit.tar.gz && \
+    tar -xzf sparky-linux2.6-64bit.tar.gz && \
+    mv sparky $HOME/software/sparky && \
+    mkdir -p $HOME/Sparky && \
+    mkdir -p $HOME/Sparky/Projects && \
+    mkdir -p $HOME/Sparky/Save && \
+    mkdir -p $HOME/Sparky/Lists
+
+# Set environment for sparky
+ENV PATH="${PATH}:$HOME/software/sparky/bin"
+ENV SPARKYHOME=$HOME/Sparky
+
+# CcpNmr Analysis 2.4
+# http://www.ccpn.ac.uk/v2-software/software/analysis
+# http://www.ccpn.ac.uk/v3-software/downloads/beta-downloads
+# http://www.ccpn.ac.uk/v2-software/downloads
+RUN cd $HOME && \
+    echo "Installing CcpNmr Analysis 2.4" && \
+    mkdir -p $HOME/Downloads && \
+    cd $HOME/Downloads && \
+    curl -O http://www2.ccpn.ac.uk/download/ccpnmr/analysis2.4.2_linux64.tgz && \
+    tar xvf analysis2.4.2_linux64.tgz -C $HOME/software
+
+# Set environment for analysis
+ENV CCPNMR_TOP_DIR=$HOME/software/ccpnmr
+ENV PATH="${CCPNMR_TOP_DIR}/bin:${PATH}"
+ENV PYTHONPATH=.:${CCPNMR_TOP_DIR}/ccpnmr2.1/python
+
+# CcpNmr Analysis format convert
+#RUN cd $HOME && \
+#    echo "Installing CcpNmr Analysis format convert" && \
+#    mkdir -p $HOME/Downloads && \
+#    cd $HOME/Downloads && \
+#    curl -O http://www2.ccpn.ac.uk/download/ccpnmr/format2.4.0.tar.gz && \
+#    tar xvf format2.4.0.tar.gz && \
+#    mv ccpnmr ccpnmr_format
+
+# build pymol
+# https://pymolwiki.org/index.php/Linux_Install
+RUN cd $HOME && \
+    mkdir -p $HOME/software && \
+    cd $HOME/software && \
+    svn co svn://svn.code.sf.net/p/pymol/code/trunk/pymol && \
+    cd $HOME/software/pymol && \
+    prefix=$HOME/software/pymol-svn && \
+    modules=$prefix/modules && \
+    python2.7 setup.py build install --home=$prefix --install-lib=$modules --install-scripts=$prefix && \
+    cd $HOME/bin && \
+    ln -s $HOME/software/pymol-svn/pymol pymol
