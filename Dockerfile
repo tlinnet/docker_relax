@@ -14,5 +14,10 @@ RUN cd $HOME && \
     ./relax -i && \
     ln -s $HOME/software/relax/relax $HOME/bin/relax
 
+# Clean up
+RUN echo "" && \
+    AUTO_ADDED_PACKAGES=`apt-mark showauto` && \
+    echo $AUTO_ADDED_PACKAGES
+
 # Expose to run jupyter notebook
 EXPOSE 8888
