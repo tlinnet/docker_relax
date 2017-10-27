@@ -1,7 +1,6 @@
 # To build this image, source the file
 
-
-# Build base image with packages and relax
+# Build base image with packages
 docker build -t tlinnet/relax:01 -f Dockerfile_01_packages .
 alias dr1='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax01 tlinnet/relax:01'
 
@@ -25,6 +24,12 @@ alias dr5='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X
 docker build -t tlinnet/relax:06 -f Dockerfile_06_mmass .
 alias dr6='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax06 tlinnet/relax:06'
 
-# Build base image with packages and relax
+# Build relax
+docker build -t tlinnet/relax:10 -f Dockerfile_10_relax .
+alias dr10='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax10 tlinnet/relax:10'
+
+
+
+# Build ending image updating relax
 docker build -t tlinnet/relax  .
 alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax tlinnet/relax'
