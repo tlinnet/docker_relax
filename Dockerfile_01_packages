@@ -31,6 +31,9 @@ ENV BUILD_PACKAGES="$BUILD_PACKAGES msttcorefonts"
 # For MddNMR
 ENV BUILD_PACKAGES="$BUILD_PACKAGES python-pyside gawk"
 
+# For Palmer FastModelFree
+ENV BUILD_PACKAGES="$BUILD_PACKAGES tk"
+
 # For other python packages
 ENV BUILD_PACKAGES="$BUILD_PACKAGES python-pandas ipython ipython-notebook"
 
@@ -64,5 +67,7 @@ ENV BUILD_PACKAGES="$BUILD_PACKAGES python3-pip"
 # Install
 RUN echo "Installing these packages" $BUILD_PACKAGES
 
+# Install all packages in 1 RUN
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y $BUILD_PACKAGES
+    apt-get install --no-install-recommends -y $BUILD_PACKAGES && \
+    rm -rf /var/lib/apt/lists/*
