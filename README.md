@@ -18,7 +18,6 @@ For deleting images, go to -> [Developer section](#Developer)
 # Get prebuild image:
 ```bash
 docker pull tlinnet/relax
-docker images
 ```
 # Running docker with image <a name="run"></a>
 [Link to run reference:](https://docs.docker.com/v1.11/engine/reference/commandline/run)
