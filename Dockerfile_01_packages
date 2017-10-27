@@ -68,6 +68,9 @@ ENV BUILD_PACKAGES="$BUILD_PACKAGES python3-pip"
 RUN echo "Installing these packages" $BUILD_PACKAGES
 
 # Install all packages in 1 RUN
+# apt-get remove --purge -y $AUTO_ADDED_PACKAGES
 RUN apt-get update && \
     apt-get install --no-install-recommends -y $BUILD_PACKAGES && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    AUTO_ADDED_PACKAGES=`apt-mark showauto` && \
+    echo $AUTO_ADDED_PACKAGES

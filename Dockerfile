@@ -1,6 +1,9 @@
 # https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/
 # docker build -t tlinnet/relax .
 
+# Possible minimise install
+# https://www.dajobe.org/blog/2015/04/18/making-debian-docker-images-smaller/
+
 FROM tlinnet/relax:05
 
 # Get relax
@@ -15,6 +18,7 @@ RUN cd $HOME && \
     ln -s $HOME/software/relax/relax $HOME/bin/relax
 
 # Clean up
+# apt-get remove --purge -y $AUTO_ADDED_PACKAGES
 RUN echo "" && \
     AUTO_ADDED_PACKAGES=`apt-mark showauto` && \
     echo $AUTO_ADDED_PACKAGES
