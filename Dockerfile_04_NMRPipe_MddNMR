@@ -76,7 +76,7 @@ RUN cd $HOME && \
     echo "Installing MddNMR " && \
     mkdir -p $HOME/Downloads && \
     cd $HOME/Downloads && \
-    curl -L -O https://github.com/tlinnet/docker_relax/raw/master/mddnmr2.5.tgz && \
+    curl -L -O https://github.com/tlinnet/docker_relax/raw/master/external_software/mddnmr2.5.tgz && \
     tar xvf mddnmr2.5.tgz && \
     mv mddnmr $HOME/software/mddnmr && \
     cd $HOME/software/mddnmr && \
