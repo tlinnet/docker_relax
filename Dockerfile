@@ -16,6 +16,6 @@ RUN cd $HOME && \
 
 # Clean up. Should these be removed?
 # apt-get remove --purge -y $AUTO_ADDED_PACKAGES
-RUN echo "" && \
-    AUTO_ADDED_PACKAGES=`apt-mark showauto` && \
-    echo $AUTO_ADDED_PACKAGES
+#RUN echo "" && \
+#    AUTO_ADDED_PACKAGES=`apt-mark showauto` && \
+#    echo $AUTO_ADDED_PACKAGES

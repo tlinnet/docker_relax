@@ -28,7 +28,7 @@ docker images
 ```
 ## Running on linux <a name="runlinux"></a>
 ```bash
-alias dr='docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax tlinnet/relax'
+alias dr='docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v "'$PWD'":/home/developer/work --name relax tlinnet/relax'
 ```
 ## Running on a mac <a name="runmac"></a>
 ```bash
@@ -41,14 +41,14 @@ open -a XQuartz
 xhost + `ipconfig getifaddr en1`
 
 # Then make alias and run. Set 'en1' to either en1 or en0, depending which returns IP.
-alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax tlinnet/relax'
+alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v "'$PWD'":/home/developer/work --name relax tlinnet/relax'
 ```
 ## Easy run of docker by adding alias to shell profile file
 To make this easier on a **linux**, consider adding this to **HOME/.bash_profile**
 
 ```bash
 # Alias the docker run command
-alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax tlinnet/relax'
+alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v "'$PWD'":/home/developer/work --name relax tlinnet/relax'
 ```
 
 To make this easier on a **mac**, consider adding this to **HOME/.bash_profile**
@@ -60,17 +60,17 @@ alias drdocker='open -a /Applications/Docker.app/Contents/MacOS/Docker'
 alias drx='open -a XQuartz; xhost + `ipconfig getifaddr en1`'
 
 # Run "Docker Relax": dr
-alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax tlinnet/relax'
+alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v "'$PWD'":/home/developer/work --name relax tlinnet/relax'
 
 # Run "Docker Relax Execute ": For example: dre bash
 # This is when then Docker Relax image is already running.
 alias dre='docker exec -it relax'
 
 # Docker Relax Jupyter notebook: drn
-alias drn='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0'
+alias drn='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v "'$PWD'":/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0'
 
 # Docker relax Jupyter-lab: drl
-alias drl='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-lab --no-browser --port 8888 --ip=0.0.0.0'
+alias drl='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v "'$PWD'":/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-lab --no-browser --port 8888 --ip=0.0.0.0'
 ```
 # Installed programs
 ## relax with OpenDX <a name="relax"></a>
@@ -147,10 +147,10 @@ First make aliases
 
 ```bash
 # Docker Relax Jupyter notebook: drn
-alias drn='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0'
+alias drn='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v "'$PWD'":/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0'
 
 # Docker relax Jupyter-lab: drl
-alias drl='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-lab --no-browser --port 8888 --ip=0.0.0.0'
+alias drl='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v "'$PWD'":/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-lab --no-browser --port 8888 --ip=0.0.0.0'
 ```
 
 Then run
@@ -209,11 +209,11 @@ Run it with:
 
 ```bash
 ## On Linux
-docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax tlinnet/relax
+docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v "'$PWD'":/home/developer/work --name relax tlinnet/relax
 
 ## On mac. Check to use either en0 or en1.
 xhost + `ipconfig getifaddr en1`
-docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax tlinnet/relax
+docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v "'$PWD'":/home/developer/work --name relax tlinnet/relax
 ```
 Delete container and images. This will destroy all your images and containers. <br>
 **It will not be possible to restore them!**
