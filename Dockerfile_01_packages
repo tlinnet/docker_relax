@@ -10,7 +10,7 @@ FROM ubuntu:16.04
 # https://www.dajobe.org/blog/2015/04/18/making-debian-docker-images-smaller/
 
 # General packages
-ENV BUILD_PACKAGES="lynx htop curl wget unzip tcsh subversion sudo"
+ENV BUILD_PACKAGES="lynx htop curl wget unzip tcsh subversion sudo nano vim"
 
 # For relax
 ENV BUILD_PACKAGES="$BUILD_PACKAGES git scons grace dx "

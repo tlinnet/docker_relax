@@ -17,9 +17,9 @@ RUN cd $HOME && \
     cd .. && \
     curl -O https://gist.githubusercontent.com/tlinnet/44887c3056f33314f432cd35fe222ee0/raw/a5d20bb2e3070060bfe210a1ebdebe5f2c646cfc/0001-Made-pathches-to-get-mMass-5.5.0-to-work-on-wxPython.patch && \ 
     git apply 0001-Made-pathches-to-get-mMass-5.5.0-to-work-on-wxPython.patch && \ 
+    echo '#!/usr/bin/env bash' > mmass && \
+    echo 'python $HOME/software/mMass/mmass.py $argv' >> mmass && \
+    chmod +x mmass && \
     cd $HOME && \
     mv $HOME/Downloads/mMass $HOME/software/mMass && \
-    cd $HOME/bin && \
-    echo "#!/usr/bin/env bash" > mmass && \
-    echo "python $HOME/software/mMass/mmass.py" >> mmass && \
-    chmod +x mmass
+    ln -s $HOME/software/mMass/mmass $HOME/bin/mmass
