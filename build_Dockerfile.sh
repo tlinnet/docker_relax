@@ -1,4 +1,4 @@
- To build this image, source the file
+# To build this image, source the file
 
 # Build base image with packages
 docker build -t tlinnet/relax:01 -f Dockerfile_01_packages .
