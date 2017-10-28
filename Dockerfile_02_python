@@ -9,7 +9,7 @@ ENV PIP_PACKAGES="mpi4py jupyter jupyterlab epydoc ipykernel"
 # For python3
 ENV PIP3_PACKAGES="jupyter jupyterlab epydoc ipykernel ipymol"
 
-# Install. Upgrade pip in special over, so pip does not become pip3. Sigh...
+# Install. Upgrade pip in special order, so pip does not become pip3. Sigh...
 RUN echo "" && \
     pip install setuptools && \
     pip3 install --upgrade pip && \
