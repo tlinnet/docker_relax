@@ -16,9 +16,12 @@ RUN cd $HOME && \
     find ./build -iname 'calculations.so' -type f | xargs -I '{}' mv '{}' . && \
     cd .. && \
     curl -O https://gist.githubusercontent.com/tlinnet/44887c3056f33314f432cd35fe222ee0/raw/a5d20bb2e3070060bfe210a1ebdebe5f2c646cfc/0001-Made-pathches-to-get-mMass-5.5.0-to-work-on-wxPython.patch && \ 
-    git apply 0001-Made-pathches-to-get-mMass-5.5.0-to-work-on-wxPython.patch && \ 
+    git apply 0001-Made-pathches-to-get-mMass-5.5.0-to-work-on-wxPython.patch
+RUN cd $HOME && \
+    cd $HOME/Downloads/mMass && \
     echo '#!/usr/bin/env bash' > mmass && \
-    echo 'python $HOME/software/mMass/mmass.py $argv' >> mmass && \
+    echo 'echo "$@"' >> mmass && \
+    echo 'python $HOME/software/mMass/mmass.py "$@"' >> mmass && \
     chmod +x mmass && \
     cd $HOME && \
     mv $HOME/Downloads/mMass $HOME/software/mMass && \
