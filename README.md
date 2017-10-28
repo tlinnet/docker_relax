@@ -58,8 +58,12 @@ To make this easier on a **mac**, consider adding this to **HOME/.bash_profile**
 alias drdocker='open -a /Applications/Docker.app/Contents/MacOS/Docker'
 # Start  XQuartz, if it is not running
 alias drx='open -a XQuartz; xhost + `ipconfig getifaddr en1`'
-# Alias the docker run command
+# Docker relax run
 alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax tlinnet/relax'
+# Execute in Docker relax when running
+alias dre='docker exec -it relax'
+# Docker relax Jupyter notebook
+alias drn='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0'
 ```
 # Installed programs
 ## relax with OpenDX <a name="relax"></a>
@@ -138,6 +142,9 @@ docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tm
 
 # Then run jupyter from terminal and copy the URL+token to your browser.
 jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0
+
+# Make an alias instead to jupyter docker relax notebook
+alias drn='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0'
 ```
 ## Pymol <a name="Pymol"></a>
 * [Pymol](https://pymolwiki.org/index.php/Main_Page)
@@ -208,4 +215,3 @@ docker rmi $(docker images -q)
 ### References
 * <http://fabiorehm.com/blog/2014/09/11/running-gui-apps-with-docker> <br>
 * <https://blog.jessfraz.com/post/docker-containers-on-the-desktop>
-

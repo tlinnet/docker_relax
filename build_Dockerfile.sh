@@ -7,6 +7,8 @@ alias dr1='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X
 # Build with python
 docker build -t tlinnet/relax:02 -f Dockerfile_02_python .
 alias dr2='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax02 tlinnet/relax:02'
+# Docker relax Jupyter notebook
+alias drn='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0'
 
 # Build user setup
 docker build -t tlinnet/relax:03 -f Dockerfile_03_user_setup .
@@ -31,3 +33,5 @@ alias dr10='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.
 # Build ending image updating relax
 docker build -t tlinnet/relax  .
 alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax tlinnet/relax'
+# Execute in Docker relax when running
+alias dre='docker exec -it relax'
