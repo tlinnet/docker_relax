@@ -58,12 +58,19 @@ To make this easier on a **mac**, consider adding this to **HOME/.bash_profile**
 alias drdocker='open -a /Applications/Docker.app/Contents/MacOS/Docker'
 # Start  XQuartz, if it is not running
 alias drx='open -a XQuartz; xhost + `ipconfig getifaddr en1`'
-# Docker relax run
+
+# Run "Docker Relax": dr
 alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax tlinnet/relax'
-# Execute in Docker relax when running
+
+# Run "Docker Relax Execute ": For example: dre bash
+# This is when then Docker Relax image is already running.
 alias dre='docker exec -it relax'
-# Docker relax Jupyter notebook
+
+# Docker Relax Jupyter notebook: drn
 alias drn='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0'
+
+# Docker relax Jupyter-lab: drl
+alias drl='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-lab --no-browser --port 8888 --ip=0.0.0.0'
 ```
 # Installed programs
 ## relax with OpenDX <a name="relax"></a>
@@ -136,16 +143,29 @@ dr sparky
 dr analysis
 ```
 ## Jupyter notebook <a name="Jupyter"></a>
+First make aliases
+
 ```bash
-# First run docker with port 8888:8888
-docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name relax tlinnet/relax
-
-# Then run jupyter from terminal and copy the URL+token to your browser.
-jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0
-
-# Make an alias instead to jupyter docker relax notebook
+# Docker Relax Jupyter notebook: drn
 alias drn='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0'
+
+# Docker relax Jupyter-lab: drl
+alias drl='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-lab --no-browser --port 8888 --ip=0.0.0.0'
 ```
+
+Then run
+
+```bash
+# For Jupyter Notebook
+drn
+
+# For Jupyterlab
+drl
+```
+
+Then visis in our browser: [http://0.0.0.0:8888](http://0.0.0.0:8888)<br>
+NOTE: If you by accident use: **http://0.0.0.0:8888/tree**, the Jupyterlab extension will NOT work.
+
 ## Pymol <a name="Pymol"></a>
 * [Pymol](https://pymolwiki.org/index.php/Main_Page)
 
