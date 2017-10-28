@@ -7,12 +7,12 @@ alias dr1='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X
 # Build with python
 docker build -t tlinnet/relax:02 -f Dockerfile_02_python .
 alias dr2='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax02 tlinnet/relax:02'
-# Docker relax Jupyter notebook
-alias dr2n='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name relax02 tlinnet/relax02 jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0'
 
 # Build user setup
 docker build -t tlinnet/relax:03 -f Dockerfile_03_user_setup .
 alias dr3='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax03 tlinnet/relax:03'
+# Docker relax Jupyter notebook
+alias dr3n='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work -p 8888:8888 --name relax03 tlinnet/relax03 jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0'
 
 # Build with NMRPipe and MddNMR
 docker build -t tlinnet/relax:04 -f Dockerfile_04_NMRPipe_MddNMR .
@@ -25,6 +25,12 @@ alias dr5='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X
 # Build with mmass
 docker build -t tlinnet/relax:06 -f Dockerfile_06_mmass .
 alias dr6='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax06 tlinnet/relax:06'
+
+# Build with bruker CompassXport
+docker build -t tlinnet/relax:07 -f Dockerfile_07_bruker_CompassXport .
+alias dr7='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD:/home/developer/work --name relax07 tlinnet/relax:07'
+
+
 
 # Build relax
 docker build -t tlinnet/relax:10 -f Dockerfile_10_relax .
