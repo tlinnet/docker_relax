@@ -19,6 +19,3 @@ RUN cd $HOME && \
 RUN echo "" && \
     AUTO_ADDED_PACKAGES=`apt-mark showauto` && \
     echo $AUTO_ADDED_PACKAGES
-
-# Expose to run jupyter notebook
-EXPOSE 8888

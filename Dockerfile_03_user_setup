@@ -30,3 +30,6 @@ RUN echo "" && \
     #echo '    "password": "sha1:44a0c66870f6:232a4f58dc227666515f06edd5b2a408c499c2fb"' >> jupyter_notebook_config.json && \
     #echo '  }' >> jupyter_notebook_config.json && \
     #echo '}' >> jupyter_notebook_config.json
+
+# Expose to run jupyter notebook
+EXPOSE 8888
