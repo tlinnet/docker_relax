@@ -4,24 +4,22 @@ FROM tlinnet/relax:01
 # https://www.dajobe.org/blog/2015/04/18/making-debian-docker-images-smaller/
 
 # For python2
-ENV PIP_PACKAGES="epydoc jupyter ipykernel jupyterlab"
+ENV PIP_PACKAGES="mpi4py jupyter jupyterlab epydoc ipykernel"
 
 # For python3
-ENV PIP3_PACKAGES="epydoc jupyter ipykernel ipymol"
+ENV PIP3_PACKAGES="jupyter jupyterlab epydoc ipykernel ipymol"
 
-# Install
+# Install. Upgrade pip in special over, so pip does not become pip3. Sigh...
 RUN echo "" && \
     pip install setuptools && \
     pip3 install --upgrade pip && \
     pip3 install setuptools && \
     pip2 install --upgrade pip && \
     pip install $PIP_PACKAGES && \
-    pip install mpi4py && \
     jupyter serverextension enable --py jupyterlab --sys-prefix
 RUN echo "" && \
     pip3 install $PIP3_PACKAGES && \
     ipython3 kernel install
-#    pip3 install mpi4py
 
 # Install relax python pagkages
 # current version of minfx and bmrblib and nmrglue
