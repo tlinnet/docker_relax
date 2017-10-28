@@ -2,14 +2,12 @@ FROM tlinnet/relax:01
 
 # Possible minimise install
 # https://www.dajobe.org/blog/2015/04/18/making-debian-docker-images-smaller/
-ENV PIP_PACKAGES=""
-ENV PIP3_PACKAGES=""
 
 # For python2
-ENV PIP_PACKAGES="$PIP_PACKAGES epydoc jupyter ipykernel jupyterlab"
+ENV PIP_PACKAGES="epydoc jupyter ipykernel jupyterlab"
 
 # For python3
-ENV PIP3_PACKAGES="$PIP3_PACKAGES ipymol"
+ENV PIP3_PACKAGES="epydoc jupyter ipykernel ipymol"
 
 # Install
 RUN echo "" && \
@@ -18,12 +16,11 @@ RUN echo "" && \
     pip3 install setuptools && \
     pip2 install --upgrade pip && \
     pip install $PIP_PACKAGES && \
-    pip install mpi4py
-RUN echo "" && \
-    pip3 install $PIP_PACKAGES && \
-    ipython3 kernel install && \
-    pip3 install $PIP3_PACKAGES && \
+    pip install mpi4py && \
     jupyter serverextension enable --py jupyterlab --sys-prefix
+RUN echo "" && \
+    pip3 install $PIP3_PACKAGES && \
+    ipython3 kernel install
 #    pip3 install mpi4py
 
 # Install relax python pagkages
