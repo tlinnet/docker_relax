@@ -9,13 +9,15 @@ FROM ubuntu:16.04
 # Possible minimise install
 # https://www.dajobe.org/blog/2015/04/18/making-debian-docker-images-smaller/
 
-# General packages
-ENV BUILD_PACKAGES="lynx htop curl wget unzip tcsh subversion sudo nano vim"
+# General packages.
+ENV BUILD_PACKAGES="lynx htop curl wget unzip tcsh subversion sudo nano vim snap"
 
 # For relax
-ENV BUILD_PACKAGES="$BUILD_PACKAGES git scons grace dx "
-ENV BUILD_PACKAGES="$BUILD_PACKAGES openmpi-bin openmpi-doc libopenmpi-dev"
-ENV BUILD_PACKAGES="$BUILD_PACKAGES python-numpy python-scipy python-matplotlib python-pip python-wxgtk3.0"
+ENV BUILD_PACKAGES="$BUILD_PACKAGES git scons grace dx"
+ENV BUILD_PACKAGES="$BUILD_PACKAGES python-wxgtk3.0 openmpi-bin openmpi-doc libopenmpi-dev"
+
+# Python pip. Rest of packages is later installed.
+ENV BUILD_PACKAGES="$BUILD_PACKAGES python-pip python3-pip"
 
 # NMRPipe
 # http://www.lorieau.com/nmr/2015/04/15/NMRPipe-ubuntu14.04.html
@@ -33,9 +35,6 @@ ENV BUILD_PACKAGES="$BUILD_PACKAGES python-pyside gawk"
 
 # For Palmer FastModelFree
 ENV BUILD_PACKAGES="$BUILD_PACKAGES tk"
-
-# For other python packages
-ENV BUILD_PACKAGES="$BUILD_PACKAGES python-pandas ipython ipython-notebook"
 
 # For pymol, and build
 ENV BUILD_PACKAGES="$BUILD_PACKAGES pymol"
@@ -61,13 +60,11 @@ ENV BUILD_PACKAGES="$BUILD_PACKAGES nvidia-340"
 #    rm NVIDIA-Linux-x86_64-375.20.run
 #RUN glxgears
 
-# For python3
-ENV BUILD_PACKAGES="$BUILD_PACKAGES python3-pip"
-
 # Install
 RUN echo "Installing these packages" $BUILD_PACKAGES
 
 # Install all packages in 1 RUN
 RUN apt-get update && \
     apt-get install --no-install-recommends -y $BUILD_PACKAGES && \
+    snap install atom --classic && \
     rm -rf /var/lib/apt/lists/*
