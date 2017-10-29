@@ -196,6 +196,12 @@ This is to save time in the building phase.
 ```bash
 source build_Dockerfile.sh
 ```
+Restart docker on a mac, if it "hangs".
+
+```bash
+killall Docker
+drdocker
+```
 
 Delete container and images. This will destroy all your images and containers. <br>
 **It will not be possible to restore them!**
@@ -240,9 +246,12 @@ dr curl -O https://storage.googleapis.com/google-code-archive-downloads/v2/code.
 
 dr unzip example_separate_2d_bruker.zip
 ```
+
 Then start a Jupyter notebook and visit in our browser: [http://0.0.0.0:8888](http://0.0.0.0:8888). The **drn** alias [is explained here.](#runmac)
 
 ```bash
 # Start Docker Relax Notebook
 drn
 ```
+
+Go into the folder **separate_2d_bruker** and make a new notebook.
