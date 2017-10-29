@@ -1,15 +1,43 @@
 FROM tlinnet/relax:06
 
-# Fix according to http://forum.mmass.org/viewtopic.php?id=274
-RUN cd $HOME && \
-    cd $HOME/software/mMass && \
-    curl -O https://gist.githubusercontent.com/tlinnet/2c3c4e65e91a3f338ca93487c282f932/raw/e987c03c0abc9ba62ff86a7d47c7d00d99efb132/0001-Making-patch-according-to-http-forum.mmass.org-viewt.patch && \
-    git apply 0001-Making-patch-according-to-http-forum.mmass.org-viewt.patch && \
-    echo ""
+# This Docker file is NOT finished. 
+# It is not so easy to get this to work, and one should properly just
+# use the ProteWizard docker image instead. http://biocontainers.pro
 
 # Convert massspec files
-# https://hub.docker.com/r/suchja/wine/
+# https://hub.docker.com/r/biocontainers/proteowizard/
+# https://github.com/BioContainers/containers
+# https://biocontainers.pro/
+
 # https://github.com/phnmnl/container-pwiz
 # https://github.com/sneumann/pwiz-appliance
 # https://github.com/jmchilton/proteomics-wine-env
 # https://github.com/BioContainers/specs/issues/64
+# https://hub.docker.com/r/suchja/wine/
+
+USER root
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y software-properties-common apt-transport-https && \
+    wget -nc https://dl.winehq.org/wine-builds/Release.key && \
+    apt-key add Release.key && \
+    apt-add-repository https://dl.winehq.org/wine-builds/ubuntu/ && \
+    apt-get update && \
+    apt-get install --no-install-recommends -y wine-stable winehq-stable winetricks
+
+# WINE does not like running as root
+USER developer
+RUN WINEARCH=win32 winecfg
+
+COPY external_software/CompassXport_3.0.13.1_Setup.exe /home/developer/Downloads/
+
+RUN cd $HOME && \
+    cd $HOME/Downloads && \
+    wine CompassXport_3.0.13.1_Setup.exe
+
+# Fix mmass
+# Fix according to http://forum.mmass.org/viewtopic.php?id=274
+#RUN cd $HOME && \
+#    cd $HOME/software/mMass && \
+#    curl -O https://gist.githubusercontent.com/tlinnet/2c3c4e65e91a3f338ca93487c282f932/raw/e987c03c0abc9ba62ff86a7d47c7d00d99efb132/0001-Making-patch-according-to-http-forum.mmass.org-viewt.patch && \
+#    git apply 0001-Making-patch-according-to-http-forum.mmass.org-viewt.patch && \
+#    echo ""
