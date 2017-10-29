@@ -27,7 +27,6 @@ You now have a Jupyter notebook, with images+math+workflow, which you can share 
 * [JupyterLab](http://jupyter.org)-> [Jump to commands](#Jupyter)
 * [Pymol](https://pymolwiki.org/index.php/Main_Page)-> [Jump to commands](#Pymol)
 * [mMass Mass Spectrometry Tool](http://mmass.org/)-> [Jump to commands](#mmass)
-* [Atom text editor](https://atom.io/)
 
 For deleting images, go to -> [Developer section](#Developer)<br>
 For examples, go to -> [Examples section](#examples)
@@ -316,7 +315,13 @@ Then visit in our browser: [http://0.0.0.0:8888](http://0.0.0.0:8888).
 Create a new Python 3 notebook. Paste this is into cells, and execute 
 with shift+enter
 
+
+Jupyter **magic commands** starts with **%**. [See more here](http://ipython.readthedocs.io/en/stable/interactive/magics.html) and [here.](https://www.dataquest.io/blog/jupyter-notebook-tips-tricks-shortcuts/)
+
 ```bash
+# This will list all magic commands
+%lsmagic
+# List the folder content
 %ls s4_2d_plotting
 
 import nmrglue as ng
