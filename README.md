@@ -13,6 +13,7 @@ Docker image for NMR software. Running on Ubuntu 16.04 LTS.
 * [Jupyter notebook](http://jupyter.org)-> [Jump to commands](#Jupyter)
 * [Pymol](https://pymolwiki.org/index.php/Main_Page)-> [Jump to commands](#Pymol)
 * [mMass Mass Spectrometry Tool](http://mmass.org/)-> [Jump to commands](#mmass)
+* [Atom text editor](https://atom.io/)
 
 For deleting images, go to -> [Developer section](#Developer)
 # Get prebuild image:
@@ -225,7 +226,7 @@ docker rmi $(docker images -q)
 * <https://blog.jessfraz.com/post/docker-containers-on-the-desktop>
 
 # Examples of use
-## nmrglue in Jupyter notebook <a name="nmrglue_ex"></a>
+## nmrglue in Jupyter labbook <a name="nmrglue_ex"></a>
 
 First go to a folder, on your computer, where you can download nmrglue example files.
 
@@ -247,11 +248,30 @@ dr curl -O https://storage.googleapis.com/google-code-archive-downloads/v2/code.
 dr unzip example_separate_2d_bruker.zip
 ```
 
-Then start a Jupyter notebook and visit in our browser: [http://0.0.0.0:8888](http://0.0.0.0:8888). The **drn** alias [is explained here.](#runmac)
+Then start a Jupyter labbook and visit in our browser: [http://0.0.0.0:8888](http://0.0.0.0:8888). The **drl** alias [is explained here.](#runmac)
 
 ```bash
-# Start Docker Relax Notebook
-drn
+# Start Docker Relax Labbook
+drl
 ```
 
-Go into the folder **separate_2d_bruker** and make a new notebook.
+Create a new Python 3 notebook. Paste this is into cells, and execute 
+
+```python
+import nmrglue as ng
+
+# read in the NMR data
+dic, data = ng.bruker.read('separate_2d_bruker/arrayed_data.dir', shape=(7360, 640), cplex=True)
+```
+
+```python
+# Write it out
+array_size = 23
+for i in range(array_size):
+    dir_name = "separate_2d_bruker/%02d"%(i)
+    print("Creating directory:", dir_name)
+    ng.bruker.write(dir_name, dic, data[i::array_size], overwrite=True)
+
+# list files
+%ls separate_2d_bruker/00
+```
