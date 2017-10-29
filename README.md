@@ -26,10 +26,6 @@ docker pull tlinnet/relax
 # See images on machine
 docker images
 ```
-## Running on linux <a name="runlinux"></a>
-```bash
-alias dr="docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v '$PWD':/home/developer/work --name relax tlinnet/relax"
-```
 ## Running on a mac <a name="runmac"></a>
 ```bash
 # First make sure XQuartz is running
@@ -41,36 +37,31 @@ open -a XQuartz
 xhost + `ipconfig getifaddr en1`
 
 # Then make alias and run. Set 'en1' to either en1 or en0, depending which returns IP.
-alias dr="docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v '$PWD':/home/developer/work --name relax tlinnet/relax"
+alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v "$PWD":/home/developer/work --name relax tlinnet/relax'
+# Run it
+dr
 ```
 ## Easy run of docker by adding alias to shell profile file
-To make this easier on a **linux**, consider adding this to **HOME/.bash_profile**
-
-```bash
-# Alias the docker run command
-alias dr="docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v '$PWD':/home/developer/work --name relax tlinnet/relax"
-```
-
 To make this easier on a **mac**, consider adding this to **HOME/.bash_profile**
 
 ```bash
 # Start docker, if it is not running
-alias drdocker="open -a /Applications/Docker.app/Contents/MacOS/Docker"
+alias drdocker='open -a /Applications/Docker.app/Contents/MacOS/Docker'
 # Start  XQuartz, if it is not running
-alias drx="open -a XQuartz; xhost + `ipconfig getifaddr en1`"
+alias drx='open -a XQuartz; xhost + `ipconfig getifaddr en1`'
 
 # Run "Docker Relax": dr
-alias dr="docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v '$PWD':/home/developer/work --name relax tlinnet/relax"
+alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v "$PWD":/home/developer/work --name relax tlinnet/relax'
 
 # Run "Docker Relax Execute ": For example: dre bash
 # This is when then Docker Relax image is already running.
-alias dre="docker exec -it relax"
+alias dre='docker exec -it relax'
 
 # Docker Relax Jupyter notebook: drn
-alias drn="docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v '$PWD':/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0"
+alias drn='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v "$PWD":/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0'
 
 # Docker relax Jupyter-lab: drl
-alias drl="docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v '$PWD':/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-lab --no-browser --port 8888 --ip=0.0.0.0"
+alias drl='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v "$PWD":/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-lab --no-browser --port 8888 --ip=0.0.0.0'
 ```
 # Installed programs
 ## relax with OpenDX <a name="relax"></a>
@@ -110,9 +101,13 @@ qMDD
 ## nmrglue <a name="nmrglue"></a>
 * [nmrglue](https://www.nmrglue.com/)
 
+Have a look here, for longer example together with Jupyter notebook [is explained here.](#nmrglue_ex)
+
 ```bash
 dr python -c "import nmrglue; print nmrglue.__version__"
 ```
+
+
 ## Art Palmers software <a name="Palmer"></a>
 * Art Palmers: [ModelFree4](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/modelfree), [FastModelFree](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/modelfree), [Quadric](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/quadric-diffusion), [PDBinertia](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/pdbinertia)
 
@@ -143,15 +138,7 @@ dr sparky
 dr analysis
 ```
 ## Jupyter notebook <a name="Jupyter"></a>
-First make aliases
-
-```bash
-# Docker Relax Jupyter notebook: drn
-alias drn= "docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v '$PWD':/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0"
-
-# Docker relax Jupyter-lab: drl
-alias drl="docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v '$PWD':/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-lab --no-browser --port 8888 --ip=0.0.0.0"
-```
+First make aliases as described in [aliases for mac](#runmac)
 
 Then run
 
@@ -181,6 +168,8 @@ GUI for working with Mass Spectrometry
 
 ```bash
 dr mmass
+# Open mzML files right away
+dr mmass Analysis.mzML
 ```
 # Developer <a name="Developer"></a>
 
@@ -200,21 +189,14 @@ This is to save time in the building phase.
 3. Setup the user "developer" with sudo password: passwd
 4. Setup NMRPipe and qMDD
 5. Setup Palmers software, Sparky and Analysis
-6. Build the main Dockerfile, with relax updated last
+6. Setup mMass
+7. Clone and scons build relax
+8. Build the main Dockerfile, with relax updated last
 
 ```bash
 source build_Dockerfile.sh
 ```
-Run it with:
 
-```bash
-## On Linux
-docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v "$PWD":/home/developer/work --name relax tlinnet/relax
-
-## On mac. Check to use either en0 or en1.
-xhost + `ipconfig getifaddr en1`
-docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v "$PWD":/home/developer/work --name relax tlinnet/relax
-```
 Delete container and images. This will destroy all your images and containers. <br>
 **It will not be possible to restore them!**
 
@@ -252,10 +234,13 @@ cd $HOME/Downloads/nmrglue_ex
 # separate_2d_bruker example. 
 # This example contains a Python script separate.py which separates 2D spectra
 # from an array of 2D data in a Bruker data set.
-curl -O https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/nmrglue/example_separate_2d_bruker.zip
-unzip example_separate_2d_bruker.zip
+
+# We can use curl and unzip from the container already. 
+dr curl -O https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/nmrglue/example_separate_2d_bruker.zip
+
+dr unzip example_separate_2d_bruker.zip
 ```
-Then start a Jupyter notebook and visit in our browser: [http://0.0.0.0:8888](http://0.0.0.0:8888). The **drn** alias [is explained here.](#Jupyter)
+Then start a Jupyter notebook and visit in our browser: [http://0.0.0.0:8888](http://0.0.0.0:8888). The **drn** alias [is explained here.](#runmac)
 
 ```bash
 # Start Docker Relax Notebook
