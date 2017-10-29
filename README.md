@@ -1,7 +1,21 @@
 # Docker for NMR software
 Docker image for NMR software. Running on Ubuntu 16.04 LTS.
 
-**Includes builded software for:**
+The [README with links can be found by clicking here](https://github.com/tlinnet/docker_relax/blob/master/README.md)
+
+The purpose is to make a container with relevant NMR software for daily processing of data. 
+
+Consider this workflow:
+
+* Unpack data with commands **bruker**, **varian** or **qMDD** to test.ft2
+* Inspect test.ft2 in **nmrDraw** or start a **JupyterLab**, and make images with **nmrglue** and matplotlib.
+* Use the **JupyterLab**, to write your work process and include images and math text.
+* Prepare data files in **JupyterLab**
+* Execute a script for **relax**, depending on the data files.
+
+You now have a Jupyter notebook, with images+math+workflow, which you can share and send to collaborators. 
+
+**This images includes software for:**
 
 * [relax](http://www.nmr-relax.com/) with [OpenDX](http://wiki.nmr-relax.com/OpenDX) -> [Jump to commands](#relax)
 * [NMRPipe](https://www.ibbr.umd.edu/nmrpipe/install.html) -> [Jump to commands](#NMRPipe)
@@ -10,12 +24,14 @@ Docker image for NMR software. Running on Ubuntu 16.04 LTS.
 * Art Palmers software: [ModelFree4](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/modelfree), [FastModelFree](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/modelfree), [Quadric](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/quadric-diffusion), [PDBinertia](http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/pdbinertia) -> [Jump to commands](#Palmer)
 * [Sparky](http://www.cgl.ucsf.edu/home/sparky) -> [Jump to commands](#Sparky)
 * [CcpNmr Analysis 2.4](http://www.ccpn.ac.uk/v2-software/downloads) -> [Jump to commands](#Analysis)
-* [Jupyter notebook](http://jupyter.org)-> [Jump to commands](#Jupyter)
+* [JupyterLab](http://jupyter.org)-> [Jump to commands](#Jupyter)
 * [Pymol](https://pymolwiki.org/index.php/Main_Page)-> [Jump to commands](#Pymol)
 * [mMass Mass Spectrometry Tool](http://mmass.org/)-> [Jump to commands](#mmass)
 * [Atom text editor](https://atom.io/)
 
-For deleting images, go to -> [Developer section](#Developer)
+For deleting images, go to -> [Developer section](#Developer)<br>
+For examples, go to -> [Examples section](#examples)
+
 # Get prebuild image:
 ```bash
 docker pull tlinnet/relax
@@ -61,7 +77,7 @@ alias dre='docker exec -it relax'
 # Docker Relax Jupyter notebook: drn
 alias drn='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v "$PWD":/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0'
 
-# Docker relax Jupyter-lab: drl
+# Docker relax JupyterLab: drl
 alias drl='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v "$PWD":/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-lab --no-browser --port 8888 --ip=0.0.0.0'
 ```
 # Installed programs
@@ -102,7 +118,7 @@ qMDD
 ## nmrglue <a name="nmrglue"></a>
 * [nmrglue](https://www.nmrglue.com/)
 
-Have a look here, for longer example together with Jupyter notebook [is explained here.](#nmrglue_ex)
+Have a look here, for longer example together with JupyterLab [is explained here.](#nmrglue_ex)
 
 ```bash
 dr python -c "import nmrglue; print nmrglue.__version__"
@@ -138,21 +154,21 @@ dr sparky
 ```bash
 dr analysis
 ```
-## Jupyter notebook <a name="Jupyter"></a>
+## JupyterLab <a name="Jupyter"></a>
 First make aliases as described in [aliases for mac](#runmac)
 
 Then run
 
 ```bash
+# For JupyterLab
+drl
+
 # For Jupyter Notebook
 drn
-
-# For Jupyterlab
-drl
 ```
 
 Then visit in our browser: [http://0.0.0.0:8888](http://0.0.0.0:8888)<br>
-NOTE: If you by accident use: **http://0.0.0.0:8888/tree**, the Jupyterlab extension will NOT work.
+NOTE: If you by accident use: **http://0.0.0.0:8888/tree**, the JupyterLab extension will NOT work.
 
 ## Pymol <a name="Pymol"></a>
 * [Pymol](https://pymolwiki.org/index.php/Main_Page)
@@ -225,8 +241,8 @@ docker rmi $(docker images -q)
 * <http://fabiorehm.com/blog/2014/09/11/running-gui-apps-with-docker> <br>
 * <https://blog.jessfraz.com/post/docker-containers-on-the-desktop>
 
-# Examples of use
-## nmrglue in Jupyter labbook <a name="nmrglue_ex"></a>
+# Examples of use <a name="examples"></a>
+## nmrglue in JupyterLab <a name="nmrglue_ex"></a>
 
 First go to a folder, on your computer, where you can download nmrglue example files.
 
@@ -237,25 +253,29 @@ First go to a folder, on your computer, where you can download nmrglue example f
 # First make a directory where to download example files
 mkdir -p $HOME/Downloads/nmrglue_ex
 cd $HOME/Downloads/nmrglue_ex
+```
 
-# separate_2d_bruker example. 
-# This example contains a Python script separate.py which separates 2D spectra
-# from an array of 2D data in a Bruker data set.
+### separate/separate_2d_bruker
+This example contains a Python script separate.py which separates 2D spectra from an array of 2D data in a Bruker data set.
 
-# We can use curl and unzip from the container already. 
+We can use curl and unzip from the container already. 
+
+```bash
+cd $HOME/Downloads/nmrglue_ex
 dr curl -O https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/nmrglue/example_separate_2d_bruker.zip
-
 dr unzip example_separate_2d_bruker.zip
 ```
 
-Then start a Jupyter labbook and visit in our browser: [http://0.0.0.0:8888](http://0.0.0.0:8888). The **drl** alias [is explained here.](#runmac)
+Then start a JupyterLab. The **drl** alias [is explained here.](#runmac)
 
 ```bash
 # Start Docker Relax Labbook
 drl
 ```
+Then visit in our browser: [http://0.0.0.0:8888](http://0.0.0.0:8888).
 
 Create a new Python 3 notebook. Paste this is into cells, and execute 
+with shift+enter
 
 ```python
 import nmrglue as ng
@@ -275,3 +295,64 @@ for i in range(array_size):
 # list files
 %ls separate_2d_bruker/00
 ```
+Voila!
+
+### jbnmr_examples/s4_2d_plotting
+This example is taken from Listing S4 from the 2013 JBNMR nmrglue paper. In this example a 2D SSNMR spectrum is visualized using the script plot_2d_pipe_spectrum.py
+
+```bash
+cd $HOME/Downloads/nmrglue_ex
+curl -O https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/nmrglue/jbnmr_s4_2d_plotting.zip
+unzip jbnmr_s4_2d_plotting.zip
+```
+Then start a JupyterLab. The **drl** alias [is explained here.](#runmac)
+
+```bash
+# Start Docker Relax Labbook
+drl
+```
+Then visit in our browser: [http://0.0.0.0:8888](http://0.0.0.0:8888).
+
+Create a new Python 3 notebook. Paste this is into cells, and execute 
+with shift+enter
+
+```bash
+%ls s4_2d_plotting
+
+import nmrglue as ng
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+# read in data
+dic, data = ng.pipe.read("s4_2d_plotting/test.ft2")
+
+# find PPM limits along each axis
+uc_15n = ng.pipe.make_uc(dic, data, 0)
+uc_13c = ng.pipe.make_uc(dic, data, 1)
+x0, x1 = uc_13c.ppm_limits()
+y0, y1 = uc_15n.ppm_limits()
+
+# plot the spectrum
+fig = plt.figure(figsize=(10, 10))
+fig = plt.figure()
+ax = fig.add_subplot(111)
+cl = [8.5e4 * 1.30 ** x for x in range(20)]
+ax.contour(data, cl, colors='blue', extent=(x0, x1, y0, y1), linewidths=0.5)
+
+# add 1D slices
+x = uc_13c.ppm_scale()
+s1 = data[uc_15n("105.52ppm"), :]
+s2 = data[uc_15n("115.85ppm"), :]
+s3 = data[uc_15n("130.07ppm"), :]
+ax.plot(x, -s1 / 8e4 + 105.52, 'k-')
+ax.plot(x, -s2 / 8e4 + 115.85, 'k-')
+ax.plot(x, -s3 / 8e4 + 130.07, 'k-')
+
+# label the axis and save
+ax.set_xlabel("13C ppm", size=20)
+ax.set_xlim(183.5, 167.5)
+ax.set_ylabel("15N ppm", size=20)
+ax.set_ylim(139.5, 95.5)
+fig.savefig("spectrum_2d.png")
+```
+![Result](https://raw.githubusercontent.com/jjhelmus/nmrglue/master/examples/jbnmr_examples/s4_2d_plotting/spectrum_2d.png)
