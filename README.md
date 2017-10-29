@@ -255,7 +255,7 @@ cd $HOME/Downloads/nmrglue_ex
 ```
 
 ### separate/separate_2d_bruker
-This example contains a Python script separate.py which separates 2D spectra from an array of 2D data in a Bruker data set.
+[This example](https://github.com/jjhelmus/nmrglue/tree/master/examples/separate/separate_2d_bruker) contains a Python script separate.py which separates 2D spectra from an array of 2D data in a Bruker data set.
 
 We can use curl and unzip from the container already. 
 
@@ -297,7 +297,7 @@ for i in range(array_size):
 Voila!
 
 ### jbnmr_examples/s4_2d_plotting
-This example is taken from Listing S4 from the 2013 JBNMR nmrglue paper. In this example a 2D SSNMR spectrum is visualized using the script plot_2d_pipe_spectrum.py
+[This example](https://github.com/jjhelmus/nmrglue/tree/master/examples/jbnmr_examples/s4_2d_plotting) is taken from Listing S4 from the 2013 JBNMR nmrglue paper. In this example a 2D SSNMR spectrum is visualized using the script plot_2d_pipe_spectrum.py
 
 ```bash
 cd $HOME/Downloads/nmrglue_ex
@@ -361,3 +361,23 @@ ax.set_ylim(139.5, 95.5)
 fig.savefig("spectrum_2d.png")
 ```
 ![Result](https://raw.githubusercontent.com/jjhelmus/nmrglue/master/examples/jbnmr_examples/s4_2d_plotting/spectrum_2d.png)
+
+### jbnmr_examples/s12-s15_relaxation_analysis
+[This example](https://github.com/jjhelmus/nmrglue/tree/master/examples/jbnmr_examples/s12-s15_relaxation_analysis) is taken from Listing S12 - S15 in the 2013 JBNMR nmrglue paper. In this example a series of 3D NMRPipe files containing relaxation trajectories for a solid state NMR experment and analyzed.
+
+The code has here been refactored to a complete analysis in JupyterLab.
+
+```bash
+cd $HOME/Downloads/nmrglue_ex
+```
+
+Then start a JupyterLab. The **drl** alias [is explained here.](#runmac)
+
+```bash
+# Start Docker Relax Labbook
+drl
+```
+Then visit in our browser: [http://0.0.0.0:8888](http://0.0.0.0:8888).
+
+Create a new Python 3 notebook. Paste this is into cells, and execute 
+with shift+enter.
