@@ -10,7 +10,7 @@ FROM ubuntu:16.04
 # https://www.dajobe.org/blog/2015/04/18/making-debian-docker-images-smaller/
 
 # General packages.
-ENV BUILD_PACKAGES="lynx htop curl wget unzip tcsh subversion sudo nano vim"
+ENV BUILD_PACKAGES="lynx htop curl wget unzip tcsh subversion sudo nano vim gedit"
 
 # For relax
 ENV BUILD_PACKAGES="$BUILD_PACKAGES git scons grace dx"
@@ -59,10 +59,6 @@ ENV BUILD_PACKAGES="$BUILD_PACKAGES nvidia-340"
 #    sh NVIDIA-Linux-x86_64-375.20.run -a -N --ui=none --no-kernel-module  && \
 #    rm NVIDIA-Linux-x86_64-375.20.run
 #RUN glxgears
-
-# For atom text editor
-RUN add-apt-repository ppa:webupd8team/atom
-ENV BUILD_PACKAGES="$BUILD_PACKAGES atom"
 
 # Install
 RUN echo "Installing these packages" $BUILD_PACKAGES
