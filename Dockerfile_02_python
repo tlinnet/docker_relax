@@ -14,6 +14,7 @@ RUN echo "" && \
     pip2 install --upgrade pip && \
     pip install $PIP_PACKAGES && \
     pip3 install $PIP_PACKAGES && \
+    ipython2 kernel install && \
     ipython3 kernel install && \
     jupyter serverextension enable --py jupyterlab --sys-prefix
 
