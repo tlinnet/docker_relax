@@ -13,7 +13,7 @@ Consider this workflow:
 * Prepare data files in **JupyterLab**
 * Execute a script for **relax**, depending on the data files.
 
-You now have a Jupyter notebook, with images+math+workflow, which you can share and send to collaborators. 
+You now have a Jupyter notebook, with images+math+workflow, which you can share and send to collaborators. See [the example section of relaxation analysis, for such an example](#relaxationanalysis) 
 
 **This images includes software for:**
 
@@ -362,10 +362,11 @@ fig.savefig("spectrum_2d.png")
 ```
 ![Result](https://raw.githubusercontent.com/jjhelmus/nmrglue/master/examples/jbnmr_examples/s4_2d_plotting/spectrum_2d.png)
 
-### jbnmr_examples/s12-s15_relaxation_analysis
+### relaxation analysis <a name="relaxationanalysis"></a>
+
 [This example](https://github.com/jjhelmus/nmrglue/tree/master/examples/jbnmr_examples/s12-s15_relaxation_analysis) is taken from Listing S12 - S15 in the 2013 JBNMR nmrglue paper. In this example a series of 3D NMRPipe files containing relaxation trajectories for a solid state NMR experment and analyzed.
 
-The code has here been refactored to a complete analysis in JupyterLab.
+**The code has here been refactored to a complete analysis in JupyterLab.**
 
 ```bash
 cd $HOME/Downloads/nmrglue_ex
@@ -392,3 +393,4 @@ with shift+enter.
 * The data is analysed with [NMRPipe](https://spin.niddk.nih.gov/NMRPipe/ref/scripts/) script [peakHN.tcl](https://spin.niddk.nih.gov/NMRPipe/ref/scripts/peakhn_tcl.html)
 * The spectrum is plotted in matplotlib in JupyterLab
 * An analysis script for **relax** is written and executed
+* All data is analysed in **relax**
