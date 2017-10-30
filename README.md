@@ -381,3 +381,14 @@ Then visit in our browser: [http://0.0.0.0:8888](http://0.0.0.0:8888).
 
 Create a new Python 3 notebook. Paste this is into cells, and execute 
 with shift+enter.
+
+[Please see the notebook online here for reference, and follow it.](https://github.com/tlinnet/docker_relax/blob/master/JupyterLab/relaxation_analysis.ipynb)
+
+**Everything is handled in JupyterLab**
+
+* The data is downloaded with bash command curl
+* The data is unpacked with bash command unzip
+* The data is arranged into folders
+* The data is analysed with [NMRPipe](https://spin.niddk.nih.gov/NMRPipe/ref/scripts/) script [peakHN.tcl](https://spin.niddk.nih.gov/NMRPipe/ref/scripts/peakhn_tcl.html)
+* The spectrum is plotted in matplotlib in JupyterLab
+* An analysis script for **relax** is written and executed
