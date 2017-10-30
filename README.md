@@ -248,11 +248,6 @@ First go to a folder, on your computer, where you can download nmrglue example f
 * [nmrglue examples](https://github.com/jjhelmus/nmrglue/tree/master/examples)
 * [nmrglue archive](https://code.google.com/archive/p/nmrglue/downloads)
 
-```bash
-# First make a directory where to download example files
-mkdir -p $HOME/Downloads/nmrglue_ex
-cd $HOME/Downloads/nmrglue_ex
-```
 
 ### separate/separate_2d_bruker
 [This example](https://github.com/jjhelmus/nmrglue/tree/master/examples/separate/separate_2d_bruker) contains a Python script separate.py which separates 2D spectra from an array of 2D data in a Bruker data set.
@@ -260,7 +255,10 @@ cd $HOME/Downloads/nmrglue_ex
 We can use curl and unzip from the container already. 
 
 ```bash
+# First make a directory where to download example files
+mkdir -p $HOME/Downloads/nmrglue_ex
 cd $HOME/Downloads/nmrglue_ex
+
 dr curl -O https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/nmrglue/example_separate_2d_bruker.zip
 dr unzip example_separate_2d_bruker.zip
 ```
@@ -300,7 +298,9 @@ Voila!
 [This example](https://github.com/jjhelmus/nmrglue/tree/master/examples/jbnmr_examples/s4_2d_plotting) is taken from Listing S4 from the 2013 JBNMR nmrglue paper. In this example a 2D SSNMR spectrum is visualized using the script plot_2d_pipe_spectrum.py
 
 ```bash
+mkdir -p $HOME/Downloads/nmrglue_ex
 cd $HOME/Downloads/nmrglue_ex
+
 curl -O https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/nmrglue/jbnmr_s4_2d_plotting.zip
 unzip jbnmr_s4_2d_plotting.zip
 ```
@@ -364,12 +364,16 @@ fig.savefig("spectrum_2d.png")
 
 ### relaxation analysis <a name="relaxationanalysis"></a>
 
-[This example](https://github.com/jjhelmus/nmrglue/tree/master/examples/jbnmr_examples/s12-s15_relaxation_analysis) is taken from Listing S12 - S15 in the 2013 JBNMR nmrglue paper. In this example a series of 3D NMRPipe files containing relaxation trajectories for a solid state NMR experment and analyzed.
+[This example](https://github.com/jjhelmus/nmrglue/tree/master/examples/jbnmr_examples/s12-s15_relaxation_analysis) is taken from Listing S12 - S15 in the 2013 JBNMR nmrglue paper. In this example a series of 3D NMRPipe files containing relaxation trajectories for a solid state NMR experiment and analyzed.
 
 **The code has here been refactored to a complete analysis in JupyterLab.**
 
 ```bash
+mkdir -p $HOME/Downloads/nmrglue_ex
 cd $HOME/Downloads/nmrglue_ex
+
+# Copy the notebook
+curl -O https://raw.githubusercontent.com/tlinnet/docker_relax/master/JupyterLab/relaxation_analysis.ipynb
 ```
 
 Then start a JupyterLab. The **drl** alias [is explained here.](#runmac)
@@ -380,8 +384,7 @@ drl
 ```
 Then visit in our browser: [http://0.0.0.0:8888](http://0.0.0.0:8888).
 
-Create a new Python 3 notebook. Paste this is into cells, and execute 
-with shift+enter.
+Open notebook. Go throug cells and execute with shift+enter.
 
 [Please see the notebook online here for reference, and follow it.](https://github.com/tlinnet/docker_relax/blob/master/JupyterLab/relaxation_analysis.ipynb)
 
