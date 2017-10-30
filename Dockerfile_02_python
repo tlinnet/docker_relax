@@ -4,18 +4,15 @@ FROM tlinnet/relax:01_packages
 # https://www.dajobe.org/blog/2015/04/18/making-debian-docker-images-smaller/
 
 # For python2+3
-ENV PIP_PACKAGES="epydoc numpy==1.12.1 scipy matplotlib pandas jupyter jupyterlab ipykernel"
+ENV PIP_PACKAGES="epydoc mpi4py numpy==1.12.1 scipy matplotlib pandas jupyter jupyterlab ipykernel"
 
 # Install. Upgrade pip in special order, so pip does not become pip3. Sigh...
 RUN echo "" && \
     pip install setuptools && \
     pip3 install --upgrade pip && \
     pip3 install setuptools && \
-    pip2 install --upgrade pip
-RUN echo "" && \
+    pip2 install --upgrade pip && \
     pip install $PIP_PACKAGES && \
-    pip install mpi4py
-RUN echo "" && \
     pip3 install $PIP_PACKAGES && \
     ipython3 kernel install && \
     jupyter serverextension enable --py jupyterlab --sys-prefix
