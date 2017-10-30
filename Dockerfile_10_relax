@@ -1,4 +1,4 @@
-FROM tlinnet/relax:06
+FROM tlinnet/relax:06_mmass
 
 # Get relax
 # http://www.nmr-relax.com

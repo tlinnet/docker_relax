@@ -1,4 +1,4 @@
-FROM tlinnet/relax:06
+FROM tlinnet/relax:06_mmass
 
 # This Docker file is NOT finished. 
 # It is not so easy to get this to work, and one should properly just

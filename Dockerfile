@@ -4,7 +4,7 @@
 # Possible minimise install
 # https://www.dajobe.org/blog/2015/04/18/making-debian-docker-images-smaller/
 
-FROM tlinnet/relax:10
+FROM tlinnet/relax:10_relax
 
 # Update relax
 # http://www.nmr-relax.com

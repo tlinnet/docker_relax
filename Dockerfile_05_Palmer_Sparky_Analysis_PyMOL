@@ -1,4 +1,4 @@
-FROM tlinnet/relax:04
+FROM tlinnet/relax:04_NMRPipe_MddNMR
 
 # Add Palmers Modelfree
 # http://comdnmr.nysbc.org/comd-nmr-dissem/comd-nmr-software/software/modelfree

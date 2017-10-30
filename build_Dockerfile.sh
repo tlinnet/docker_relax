@@ -23,7 +23,6 @@ source  build_Dockerfile_10.sh
 
 # Build ending image updating relax
 docker build -t $USER/relax  .
-
 # Docker relax run
 alias dr='docker run -ti --rm -e DISPLAY=$(ipconfig getifaddr en1):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v "$PWD":/home/developer/work --name relax $USER/relax'
 # Execute in Docker relax when running

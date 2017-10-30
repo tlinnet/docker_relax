@@ -1,4 +1,4 @@
-FROM tlinnet/relax:02
+FROM tlinnet/relax:02_python
 
 # Add user: After this, no installing to system directories is possible.
 # Unless setting: USER root

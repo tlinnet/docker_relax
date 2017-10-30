@@ -1,4 +1,4 @@
-FROM tlinnet/relax:05
+FROM tlinnet/relax:05_Palmer_Sparky_Analysis_PyMOL
 
 # Add mmass
 # http://mmass.org/
