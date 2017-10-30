@@ -17,7 +17,7 @@ ENV BUILD_PACKAGES="$BUILD_PACKAGES git scons grace dx"
 ENV BUILD_PACKAGES="$BUILD_PACKAGES python-wxgtk3.0 openmpi-bin openmpi-doc libopenmpi-dev"
 
 # Python pip. Rest of packages is later installed.
-ENV BUILD_PACKAGES="$BUILD_PACKAGES python-pip python3-pip"
+ENV BUILD_PACKAGES="$BUILD_PACKAGES python-pip python-dev python3-pip python3-dev"
 
 # NMRPipe
 # http://www.lorieau.com/nmr/2015/04/15/NMRPipe-ubuntu14.04.html
