@@ -5,7 +5,8 @@ FROM tlinnet/relax:01_packages
 
 # For python2+3
 ENV PIP_PACKAGES="epydoc mpi4py numpy==1.12.1 scipy matplotlib"
-ENV PIP_PACKAGES="$PIP_PACKAGES pandas jupyter jupyterlab ipykernel ipywidgets"
+ENV PIP_PACKAGES="$PIP_PACKAGES pandas jupyter jupyterlab ipykernel"
+ENV PIP_PACKAGES="$PIP_PACKAGES pandas ipywidgets jupyterlab_widgets"
 
 # Install. Upgrade pip in special order, so pip does not become pip3. Sigh...
 RUN echo "" && \
@@ -18,7 +19,8 @@ RUN echo "" && \
     ipython2 kernel install && \
     ipython3 kernel install && \
     jupyter serverextension enable --py jupyterlab --sys-prefix && \
-    jupyter nbextension enable --py widgetsnbextension --sys-prefix
+    jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
+    jupyter labextension enable --py jupyterlab_widgets --sys-prefix
 
 # Install relax python pagkages
 # current version of minfx and bmrblib and nmrglue
