@@ -3,6 +3,8 @@ Docker image for NMR software. Running on Ubuntu 16.04 LTS.
 
 The [README with links can be found by clicking here](https://github.com/tlinnet/docker_relax/blob/master/README.md)
 
+[A screencast can be seen on YouTube by clicking here.](https://youtu.be/6isTXHYw9Uc)
+
 The purpose is to make a container with relevant NMR software for daily processing of data. 
 
 Consider this workflow:
