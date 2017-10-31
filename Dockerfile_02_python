@@ -4,7 +4,8 @@ FROM tlinnet/relax:01_packages
 # https://www.dajobe.org/blog/2015/04/18/making-debian-docker-images-smaller/
 
 # For python2+3
-ENV PIP_PACKAGES="epydoc mpi4py numpy==1.12.1 scipy matplotlib pandas jupyter jupyterlab ipykernel"
+ENV PIP_PACKAGES="epydoc mpi4py numpy==1.12.1 scipy matplotlib"
+ENV PIP_PACKAGES="$PIP_PACKAGES pandas jupyter jupyterlab ipykernel ipywidgets"
 
 # Install. Upgrade pip in special order, so pip does not become pip3. Sigh...
 RUN echo "" && \
@@ -16,7 +17,8 @@ RUN echo "" && \
     pip3 install $PIP_PACKAGES && \
     ipython2 kernel install && \
     ipython3 kernel install && \
-    jupyter serverextension enable --py jupyterlab --sys-prefix
+    jupyter serverextension enable --py jupyterlab --sys-prefix && \
+    jupyter nbextension enable --py widgetsnbextension --sys-prefix
 
 # Install relax python pagkages
 # current version of minfx and bmrblib and nmrglue
