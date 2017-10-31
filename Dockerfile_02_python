@@ -19,8 +19,7 @@ RUN echo "" && \
     ipython2 kernel install && \
     ipython3 kernel install && \
     jupyter serverextension enable --py jupyterlab --sys-prefix && \
-    jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
-    jupyter labextension enable --py jupyterlab_widgets --sys-prefix
+    jupyter nbextension enable --py widgetsnbextension --sys-prefix
 
 # Install relax python pagkages
 # current version of minfx and bmrblib and nmrglue
