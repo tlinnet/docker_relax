@@ -6,7 +6,7 @@ FROM tlinnet/relax:01_packages
 # For python2+3
 ENV PIP_PACKAGES="epydoc mpi4py numpy==1.12.1 scipy matplotlib"
 ENV PIP_PACKAGES="$PIP_PACKAGES pandas jupyter jupyterlab ipykernel"
-ENV PIP_PACKAGES="$PIP_PACKAGES pandas ipywidgets jupyterlab_widgets"
+ENV PIP_PACKAGES="$PIP_PACKAGES pandas ipywidgets jupyterlab_widgets bqplot"
 
 # Install. Upgrade pip in special order, so pip does not become pip3. Sigh...
 RUN echo "" && \
@@ -19,7 +19,22 @@ RUN echo "" && \
     ipython2 kernel install && \
     ipython3 kernel install && \
     jupyter serverextension enable --py jupyterlab --sys-prefix && \
-    jupyter nbextension enable --py widgetsnbextension --sys-prefix
+    jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
+    jupyter nbextension enable --py bqplot --sys-prefix
+
+# JupyterLab Extension
+# http://ipywidgets.readthedocs.io/en/stable/user_install.html
+# https://askubuntu.com/questions/786272/why-does-installing-node-6-x-on-ubuntu-16-04-actually-install-node-4-2-6
+RUN apt-get update && \
+    apt-get install apt-transport-https && \
+    touch /etc/apt/sources.list.d/nodesource.list && \
+    echo "deb https://deb.nodesource.com/node_8.x xenial main" >> /etc/apt/sources.list.d/nodesource.list && \
+    echo "deb-src https://deb.nodesource.com/node_8.x xenial main" >> /etc/apt/sources.list.d/nodesource.list && \
+    curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | sudo apt-key add - && \
+    apt-get update && \
+    apt-get install --no-install-recommends -y nodejs && \
+    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install relax python pagkages
 # current version of minfx and bmrblib and nmrglue
