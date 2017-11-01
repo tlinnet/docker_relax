@@ -9,7 +9,7 @@ ENV PIP_PACKAGES="$PIP_PACKAGES pandas jupyter jupyterlab ipykernel"
 
 # Install. Upgrade pip in special order, so pip does not become pip3. Sigh...
 RUN echo "" && \
-    pip install setuptools && \
+    pip install setuptools  && \
     pip3 install --upgrade pip && \
     pip3 install setuptools && \
     pip2 install --upgrade pip && \
@@ -51,12 +51,19 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Jupyter Notebook widget setup
-ENV PIP_PACKAGES="ipywidgets bqplot"
+
+# ipywidgets==7.0.0 : This fixes "Failed to display Jupyter Widget of type"
+# Instead of 7.0.3 : 7.0.0 is the same as the Anaconda package.
+# See: https://github.com/JuliaGizmos/Interact.jl/issues/176
+# See: https://github.com/jupyter-widgets/ipywidgets/issues/1425
+
+ENV PIP_PACKAGES="ipywidgets==7.0.0 bqplot"
 RUN pip install $PIP_PACKAGES && \
     pip3 install $PIP_PACKAGES
 
 # Jupyter Notebook Extension.
 RUN echo ""&& \
-    jupyter nbextension enable --py widgetsnbextension --sys-prefix  && \
+    jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
     jupyter nbextension enable --py bqplot --sys-prefix && \
     jupyter labextension install bqplot-jupyterlab
+    
