@@ -52,19 +52,18 @@ RUN apt-get update && \
 
 # Jupyter Notebook widget setup
 
-# ipywidgets==7.0.0 : This fixes "Failed to display Jupyter Widget of type"
-# Instead of 7.0.3 : 7.0.0 is the same as the Anaconda package.
+# ipywidgets==6.0.0 : This fixes "Failed to display Jupyter Widget of type"
 # See: https://github.com/JuliaGizmos/Interact.jl/issues/176
 # See: https://github.com/jupyter-widgets/ipywidgets/issues/1425
 
-#ENV PIP_PACKAGES="ipywidgets==7.0.0 bqplot"
-#ENV PIP_PACKAGES="ipywidgets==6.0.0"
-ENV PIP_PACKAGES="ipywidgets bqplot"
+#ENV PIP_PACKAGES="ipywidgets bqplot"
+ENV PIP_PACKAGES="ipywidgets==6.0.0"
 RUN pip install $PIP_PACKAGES && \
     pip3 install $PIP_PACKAGES
 
 # Jupyter Notebook Extension.
 RUN echo ""&& \
-    jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
-    jupyter nbextension enable --py bqplot --sys-prefix
+    jupyter nbextension enable --py widgetsnbextension --sys-prefix
+    #jupyter nbextension enable --py bqplot --sys-prefix
     #jupyter labextension install bqplot-jupyterlab
+
