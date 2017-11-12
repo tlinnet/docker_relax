@@ -57,7 +57,8 @@ RUN apt-get update && \
 # See: https://github.com/jupyter-widgets/ipywidgets/issues/1425
 
 #ENV PIP_PACKAGES="ipywidgets bqplot"
-ENV PIP_PACKAGES="ipywidgets==6.0.0"
+ENV PIP_PACKAGES="ipywidgets"
+#ENV PIP_PACKAGES="ipywidgets==6.0.0"
 RUN pip install $PIP_PACKAGES && \
     pip3 install $PIP_PACKAGES
 
