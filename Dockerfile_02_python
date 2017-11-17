@@ -14,7 +14,8 @@ ENV NB_USER jovyan
 # Set user
 USER ${NB_USER}
 
-ENV ANACONDA_PACKAGES="mpi4py pyside wxpython"
+#ENV ANACONDA_PACKAGES="mpi4py pyside wxpython"
+ENV ANACONDA_PACKAGES="ipywidgets mpi4py pyside wxpython"
 ENV CONDA_FORGE_PACKAGES="bqplot vaex ipyvolume"
 ENV PIP_PACKAGES="epydoc scons"
 # For relax, minfx, bmrblib, nmrglue
