@@ -27,7 +27,6 @@ You now have a Jupyter notebook, with images+math+workflow, which you can share 
 * [Sparky](http://www.cgl.ucsf.edu/home/sparky) -> [Jump to commands](#Sparky)
 * [CcpNmr Analysis 2.4](http://www.ccpn.ac.uk/v2-software/downloads) -> [Jump to commands](#Analysis)
 * [JupyterLab](http://jupyter.org)-> [Jump to commands](#Jupyter)
-* [Pymol](https://pymolwiki.org/index.php/Main_Page)-> [Jump to commands](#Pymol)
 * [mMass Mass Spectrometry Tool](http://mmass.org/)-> [Jump to commands](#mmass)
 
 For deleting images, go to -> [Developer section](#Developer)<br>
@@ -54,10 +53,13 @@ open -a XQuartz
 # Then set DISPLAY options.
 xhost + `ifconfig|grep "inet "|grep -v 127.0.0.1|cut -d" " -f2`
 
-# Then make alias and run. 
-alias dr='docker run -ti --rm -e DISPLAY=$(ifconfig|grep "inet "|grep -v 127.0.0.1|cut -d" " -f2):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v "$PWD":/home/developer/work --name relax tlinnet/relax'
+# Then make alias and run.
+alias dr='docker run -ti --rm -p 8888:8888 -e DISPLAY=$(ifconfig|grep "inet "|grep -v 127.0.0.1|cut -d" " -f2):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v "$PWD":/home/jovyan/work --name relax tlinnet/relax'
 # Run it
+# With no arguments, starts Jupyter notebook
 dr
+# Or else start bash, to start programs
+dr bash
 ```
 ## Easy run of docker by adding alias to shell profile file
 To make this easier on a **mac**, consider adding this to **HOME/.bash_profile**
@@ -69,17 +71,11 @@ alias drdocker='open -a /Applications/Docker.app/Contents/MacOS/Docker'
 alias drx='open -a XQuartz; xhost + `ifconfig|grep "inet "|grep -v 127.0.0.1|cut -d" " -f2`'
 
 # Run "Docker Relax": dr
-alias dr='docker run -ti --rm -e DISPLAY=$(ifconfig|grep "inet "|grep -v 127.0.0.1|cut -d" " -f2):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v "$PWD":/home/developer/work --name relax tlinnet/relax'
+alias dr='docker run -ti --rm -p 8888:8888 -e DISPLAY=$(ifconfig|grep "inet "|grep -v 127.0.0.1|cut -d" " -f2):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v "$PWD":/home/jovyan/work --name relax tlinnet/relax'
 
 # Run "Docker Relax Execute ": For example: dre bash
 # This is when then Docker Relax image is already running.
 alias dre='docker exec -it relax'
-
-# Docker Relax Jupyter notebook: drn
-alias drn='docker run -ti --rm -e DISPLAY=$(ifconfig|grep "inet "|grep -v 127.0.0.1|cut -d" " -f2):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v "$PWD":/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-notebook --no-browser --port 8888 --ip=0.0.0.0'
-
-# Docker relax JupyterLab: drl
-alias drl='docker run -ti --rm -e DISPLAY=$(ifconfig|grep "inet "|grep -v 127.0.0.1|cut -d" " -f2):0 -v /tmp/.X11-unix:/tmp/.X11-unix -v "$PWD":/home/developer/work -p 8888:8888 --name relax tlinnet/relax jupyter-lab --no-browser --port 8888 --ip=0.0.0.0'
 ```
 # Installed programs
 ## relax with OpenDX <a name="relax"></a>
@@ -94,7 +90,7 @@ dr dx
 
 # Try OpenMPI for running with multiple CPU. Not tested.
 # To start into bash
-dr 
+dr bash
 # Then in terminal try
 mpirun --version
 mpirun -np 2 echo "hello world"
@@ -105,15 +101,14 @@ mpirun --report-bindings -np 2 echo "hello world"
 
 ```bash
 # Start nmrDraw. It apparently takes 1-2 min to open window?
-dr
-nmrDraw
+dr nmrDraw
 ```
 ## MddNMR <a name="MddNMR"></a>
 * [MddNMR](http://mddnmr.spektrino.com/download)
 
 ```bash
 # First need to start terminal before running qMDD
-dr
+dr bash
 qMDD
 ```
 ## nmrglue <a name="nmrglue"></a>
@@ -122,7 +117,7 @@ qMDD
 Have a look here, for longer example together with JupyterLab [is explained here.](#nmrglue_ex)
 
 ```bash
-dr python -c "import nmrglue; print nmrglue.__version__"
+dr python -c "import nmrglue; print(nmrglue.__version__)"
 ```
 
 
@@ -161,24 +156,13 @@ First make aliases as described in [aliases for mac](#runmac)
 Then run
 
 ```bash
-# For JupyterLab
-drl
-
-# For Jupyter Notebook
-drn
+# Jupyter Notebook is running by default.
+dr
 ```
 
 Then visit in our browser: [http://0.0.0.0:8888](http://0.0.0.0:8888)<br>
 NOTE: If you by accident use: **http://0.0.0.0:8888/tree**, the JupyterLab extension will NOT work.
 
-## Pymol <a name="Pymol"></a>
-* [Pymol](https://pymolwiki.org/index.php/Main_Page)
-
-Pymol can not run with graphical content.<br>
-
-```bash
-dr pymol -c
-```
 ## mMass <a name="mmass"></a>
 * [mMass Mass Spectrometry Tool](http://mmass.org/)-> [Jump to commands](#mmass)
 
@@ -195,6 +179,8 @@ To open a bash terminal in the container, when it is running
 
 ```bash
 docker exec -it relax bash
+# Or with the alias defined from above
+dre bash
 ```
 ## Build own image.
 [Link to build reference:](https://docs.docker.com/v1.11/engine/reference/commandline/build)
@@ -203,8 +189,8 @@ This will build 6 docker images, chained after each other.
 This is to save time in the building phase.
 
 1. Image makes apt-get install of packages
-2. Install python packages with pip
-3. Setup the user "developer" with sudo password: passwd
+2. Install python packages with pip and conda
+3. Setup the user
 4. Setup NMRPipe and qMDD
 5. Setup Palmers software, Sparky and Analysis
 6. Setup mMass
@@ -265,11 +251,11 @@ dr curl -O https://storage.googleapis.com/google-code-archive-downloads/v2/code.
 dr unzip example_separate_2d_bruker.zip
 ```
 
-Then start a JupyterLab. The **drl** alias [is explained here.](#runmac)
+Then start a Jupyter. The **dr** alias [is explained here.](#runmac)
 
 ```bash
 # Start Docker Relax Labbook
-drl
+dr
 ```
 Then visit in our browser: [http://0.0.0.0:8888](http://0.0.0.0:8888).
 
@@ -306,11 +292,11 @@ cd $HOME/Downloads/nmrglue_ex
 curl -O https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/nmrglue/jbnmr_s4_2d_plotting.zip
 unzip jbnmr_s4_2d_plotting.zip
 ```
-Then start a JupyterLab. The **drl** alias [is explained here.](#runmac)
+Then start a JupyterLab. The **dr** alias [is explained here.](#runmac)
 
 ```bash
 # Start Docker Relax Labbook
-drl
+dr
 ```
 Then visit in our browser: [http://0.0.0.0:8888](http://0.0.0.0:8888).
 
@@ -378,11 +364,11 @@ cd $HOME/Downloads/nmrglue_ex
 curl -O https://raw.githubusercontent.com/tlinnet/docker_relax/master/JupyterLab/relaxation_analysis.ipynb
 ```
 
-Then start a JupyterLab. The **drl** alias [is explained here.](#runmac)
+Then start a Jupyter. The **dr** alias [is explained here.](#runmac)
 
 ```bash
 # Start Docker Relax Labbook
-drl
+dr
 ```
 Then visit in our browser: [http://0.0.0.0:8888](http://0.0.0.0:8888).
 
@@ -390,12 +376,12 @@ Open notebook. Go throug cells and execute with shift+enter.
 
 [Please see the notebook online here for reference, and follow it.](https://github.com/tlinnet/docker_relax/blob/master/JupyterLab/relaxation_analysis.ipynb)
 
-**Everything is handled in JupyterLab**
+**Everything is handled in Jupyter**
 
 * The data is downloaded with bash command curl
 * The data is unpacked with bash command unzip
 * The data is arranged into folders
 * The data is analysed with [NMRPipe](https://spin.niddk.nih.gov/NMRPipe/ref/scripts/) script [peakHN.tcl](https://spin.niddk.nih.gov/NMRPipe/ref/scripts/peakhn_tcl.html)
-* The spectrum is plotted in matplotlib in JupyterLab
+* The spectrum is plotted in matplotlib in Jupyter
 * An analysis script for **relax** is written and executed
 * All data is analysed in **relax**

@@ -2,11 +2,22 @@ FROM tlinnet/relax:06_mmass
 
 # Get relax
 # http://www.nmr-relax.com
+# Include header files for Python 3
+# http://wiki.nmr-relax.com/Epd_canopy
+ENV PYTHON_INCLUDE_DIR="/opt/conda/include/python3.6m"
+
+# Get relax
 RUN cd $HOME && \
     cd $HOME/software && \
-    git clone https://github.com/nmr-relax/relax.git relax && \
+    git clone --depth 1 https://github.com/nmr-relax/relax.git relax
+
+# Remove syntax error with sed
+RUN cd $HOME && \
     cd $HOME/software/relax && \
-    git pull && \
+    sed -i -e 's/+ `temp_extns`//g' sconstruct && \
+    sed -i -e 's/+ `sys.version_info\[0\]`//g' sconstruct && \
+    sed -i -e 's/+ `sys.version_info\[1\]`//g' sconstruct && \
+    sed -i -e 's/+ `str(self.relax_fit_object\[0\])`//g' sconstruct && \
     scons && \
     ./relax -i && \
     ln -s $HOME/software/relax/relax $HOME/bin/relax

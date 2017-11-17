@@ -1,6 +1,13 @@
 # https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/
 
-FROM ubuntu:16.04
+# Don't use base image
+#FROM ubuntu:16.04
+
+# See latest tag at: https://hub.docker.com/r/jupyter/scipy-notebook/
+FROM jupyter/scipy-notebook:7fd175ec22c7
+
+# Set root
+USER root
 
 # Layering RUN instructions and generating commits conforms to the
 # core concepts of Docker where commits are cheap and containers
@@ -12,12 +19,13 @@ FROM ubuntu:16.04
 # General packages.
 ENV BUILD_PACKAGES="lynx htop curl wget unzip tcsh subversion sudo nano vim gedit"
 
-# For relax
-ENV BUILD_PACKAGES="$BUILD_PACKAGES git scons grace dx"
-ENV BUILD_PACKAGES="$BUILD_PACKAGES python-wxgtk3.0 openmpi-bin openmpi-doc libopenmpi-dev"
+# For relax. 'python-wxgtk3.0' will be installed with conda.
+ENV BUILD_PACKAGES="$BUILD_PACKAGES git grace dx scons"
+ENV BUILD_PACKAGES="$BUILD_PACKAGES openmpi-bin openmpi-doc libopenmpi-dev"
 
 # Python pip. Rest of packages is later installed.
-ENV BUILD_PACKAGES="$BUILD_PACKAGES python-pip python-dev python3-pip python3-dev"
+## Only for: FROM ubuntu:16.04
+#ENV BUILD_PACKAGES="$BUILD_PACKAGES python-pip python-dev python3-pip python3-dev"
 
 # NMRPipe
 # http://www.lorieau.com/nmr/2015/04/15/NMRPipe-ubuntu14.04.html
@@ -30,24 +38,30 @@ ENV BUILD_PACKAGES="$BUILD_PACKAGES libxext6:i386 xfonts-75dpi default-jre defau
 RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
 ENV BUILD_PACKAGES="$BUILD_PACKAGES msttcorefonts"
 
-# For MddNMR
-ENV BUILD_PACKAGES="$BUILD_PACKAGES python-pyside gawk"
+# For MddNMR. 'pyside' will be installed with conda.
+#ENV BUILD_PACKAGES="$BUILD_PACKAGES python-pyside gawk"
+ENV BUILD_PACKAGES="$BUILD_PACKAGES gawk"
 
-# For Palmer FastModelFree
-ENV BUILD_PACKAGES="$BUILD_PACKAGES tk"
+# For Palmer: modelfree4 and FastModelFree
+ENV BUILD_PACKAGES="$BUILD_PACKAGES libatlas3-base tk"
 
-# For pymol, and build
-ENV BUILD_PACKAGES="$BUILD_PACKAGES pymol"
-ENV BUILD_PACKAGES="$BUILD_PACKAGES subversion build-essential python-dev python-pmw libglew-dev"
-ENV BUILD_PACKAGES="$BUILD_PACKAGES freeglut3-dev libpng-dev libfreetype6-dev libxml2-dev"
+################################
+# Only for: FROM ubuntu:16.04
+################################
+## For pymol, and build
+#ENV BUILD_PACKAGES="$BUILD_PACKAGES pymol"
+#ENV BUILD_PACKAGES="$BUILD_PACKAGES subversion build-essential python-dev python-pmw libglew-dev"
+#ENV BUILD_PACKAGES="$BUILD_PACKAGES freeglut3-dev libpng-dev libfreetype6-dev libxml2-dev"
+## For graphic drivers
+## Variable, so question for keyboard is not asked
+## https://stackoverflow.com/questions/39085462/xdummy-in-docker-container
+#ENV DEBIAN_FRONTEND=noninteractive
+#ENV BUILD_PACKAGES="$BUILD_PACKAGES mesa-utils x11-apps xserver-xorg-core xorg"
+#ENV BUILD_PACKAGES="$BUILD_PACKAGES nvidia-340"
 
-# For graphic drivers
-# Variable, so question for keyboard is not asked
-# https://stackoverflow.com/questions/39085462/xdummy-in-docker-container
-ENV DEBIAN_FRONTEND=noninteractive
-ENV BUILD_PACKAGES="$BUILD_PACKAGES mesa-utils x11-apps xserver-xorg-core xorg"
-ENV BUILD_PACKAGES="$BUILD_PACKAGES nvidia-340"
-
+################################
+# Don't use this in either case.
+################################
 # https://www.geforce.com/drivers/results/111596
 #RUN apt-get update && \
 #    apt-get install -y \

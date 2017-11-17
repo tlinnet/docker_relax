@@ -1,8 +1,12 @@
-FROM tlinnet/relax:05_Palmer_Sparky_Analysis_PyMOL
+FROM tlinnet/relax:05_Palmer_Sparky_Analysis
 
 # Add mmass
 # http://mmass.org/
 # http://forum.mmass.org/viewtopic.php?id=1507
+ENV ANACONDA_PACKAGES27="wxpython"
+RUN echo "" && \
+    conda install -y -n python27 -c anaconda $ANACONDA_PACKAGES27
+
 RUN cd $HOME && \
     echo "mmass" && \
     mkdir -p $HOME/Downloads && \ 
@@ -12,7 +16,7 @@ RUN cd $HOME && \
     curl -O http://www.mmass.org/download/files/$version/$mfile && \ 
     unzip $mfile && \ 
     cd ./mMass/mspy && \ 
-    python setup.py build && \ 
+    /bin/bash -c "source activate python27; python setup.py build" && \
     find ./build -iname 'calculations.so' -type f | xargs -I '{}' mv '{}' . && \
     cd .. && \
     curl -O https://gist.githubusercontent.com/tlinnet/44887c3056f33314f432cd35fe222ee0/raw/a5d20bb2e3070060bfe210a1ebdebe5f2c646cfc/0001-Made-pathches-to-get-mMass-5.5.0-to-work-on-wxPython.patch && \ 
@@ -21,6 +25,7 @@ RUN cd $HOME && \
     cd $HOME/Downloads/mMass && \
     echo '#!/usr/bin/env bash' > mmass && \
     echo 'echo "$@"' >> mmass && \
+    echo 'source activate python27' >> mmass && \
     echo 'python $HOME/software/mMass/mmass.py "$@"' >> mmass && \
     chmod +x mmass && \
     cd $HOME && \

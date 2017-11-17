@@ -86,3 +86,24 @@ RUN cd $HOME && \
 ENV MDD_NMR=$HOME/software/mddnmr 
 ENV MDD_NMRbin=${MDD_NMR}/binCentOS64Static 
 ENV PATH=".:${PATH}:$MDD_NMRbin:${MDD_NMR}/com"
+
+################################
+# Only for: FROM jupyter/scipy-notebook
+# Python2.7 for some programs
+################################
+# 'anaconda' is the metapackage that includes all of the Python packages comprising the Anaconda distribution
+RUN echo "" && \
+    conda create -y -n python27 python=2.7 anaconda
+
+ENV ANACONDA_PACKAGES27="pyside numpy"
+RUN echo "" && \
+    conda install -y -n python27 -c anaconda $ANACONDA_PACKAGES27
+
+#/bin/bash -c "source activate python27"
+# Add python to bash
+# Either by sourcing for all bash or by alias
+#RUN echo 'source activate python27' >> ~/.bashrc
+RUN echo "" && \
+    echo '' >> ~/.bashrc && \
+    echo '#For MddNMR qMDD' >> ~/.bashrc && \
+    echo 'alias qMDD="source activate python27; qMDD"' >> ~/.bashrc

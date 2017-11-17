@@ -21,7 +21,7 @@ docker push $DOCKER_ID_USER/relax:04_NMRPipe_MddNMR
 
 # Image 5
 #docker tag $USER/relax:05_Palmer_Sparky_Analysis_PyMOL $DOCKER_ID_USER/relax:05_Palmer_Sparky_Analysis_PyMOL
-docker push $DOCKER_ID_USER/relax:05_Palmer_Sparky_Analysis_PyMOL
+docker push $DOCKER_ID_USER/relax:05_Palmer_Sparky_Analysis
 
 # Image 6
 #docker tag $USER/relax:06_mmass $DOCKER_ID_USER/relax:06_mmass
