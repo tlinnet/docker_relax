@@ -1,23 +1,42 @@
 FROM tlinnet/relax:06_mmass
 
-# Get relax
-# http://www.nmr-relax.com
-# Include header files for Python 3
-# http://wiki.nmr-relax.com/Epd_canopy
-ENV PYTHON_INCLUDE_DIR="/opt/conda/include/python3.6m"
+# Get python packages for version 2.7
+ENV ANACONDA_PACKAGES27="mpi4py"
+ENV PIP_PACKAGES27="epydoc scons scipy matplotlib"
+ENV PIP_PACKAGES27="$PIP_PACKAGES27 https://iweb.dl.sourceforge.net/project/minfx/1.0.12/minfx-1.0.12.tar.gz"
+ENV PIP_PACKAGES27="$PIP_PACKAGES27 https://iweb.dl.sourceforge.net/project/bmrblib/1.0.4/bmrblib-1.0.4.tar.gz"
+RUN echo "" && \
+    conda install -y -n python27 -c anaconda $ANACONDA_PACKAGES27 && \
+    /bin/bash -c "source activate python27; python -m pip install $PIP_PACKAGES27"
 
 # Get relax
 RUN cd $HOME && \
     cd $HOME/software && \
-    git clone --depth 1 https://github.com/nmr-relax/relax.git relax
-
-# Remove syntax error with sed
-RUN cd $HOME && \
+    git clone --depth 1 https://github.com/nmr-relax/relax.git relax && \
     cd $HOME/software/relax && \
-    sed -i -e 's/+ `temp_extns`//g' sconstruct && \
-    sed -i -e 's/+ `sys.version_info\[0\]`//g' sconstruct && \
-    sed -i -e 's/+ `sys.version_info\[1\]`//g' sconstruct && \
-    sed -i -e 's/+ `str(self.relax_fit_object\[0\])`//g' sconstruct && \
-    scons && \
-    ./relax -i && \
-    ln -s $HOME/software/relax/relax $HOME/bin/relax
+    /bin/bash -c "source activate python27; scons" && \
+    /bin/bash -c "source activate python27; ./relax -i" && \
+    echo '#!/usr/bin/env bash' > relax27.sh && \
+    echo 'source activate python27' >> relax27.sh && \
+    echo 'python $HOME/software/relax/relax "$@"' >> relax27.sh && \
+    chmod +x relax27.sh && \
+    ln -s $HOME/software/relax/relax27.sh $HOME/bin/relax
+
+################################
+# Only for: FROM jupyter/scipy-notebook
+# Include header files for Python 3 and remove scons syntax error with sed
+# http://wiki.nmr-relax.com/Epd_canopy
+#ENV PYTHON_INCLUDE_DIR="/opt/conda/include/python3.6m"
+# Get relax
+#RUN cd $HOME && \
+#    cd $HOME/software && \
+#    git clone --depth 1 https://github.com/nmr-relax/relax.git relax && \
+#    cd $HOME && \
+#    cd $HOME/software/relax && \
+#    sed -i -e 's/+ `temp_extns`//g' sconstruct && \
+#    sed -i -e 's/+ `sys.version_info\[0\]`//g' sconstruct && \
+#    sed -i -e 's/+ `sys.version_info\[1\]`//g' sconstruct && \
+#    sed -i -e 's/+ `str(self.relax_fit_object\[0\])`//g' sconstruct && \
+#    scons && \
+#    ./relax -i && \
+#    ln -s $HOME/software/relax/relax $HOME/bin/relax
