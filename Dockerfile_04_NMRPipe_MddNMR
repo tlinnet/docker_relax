@@ -25,8 +25,8 @@ RUN cd $HOME && \
     touch $HOME/.cshrc
 RUN cd $HOME && \
     cd $HOME/software/NMRPipe && \
-    ./install.com
-RUN echo "Completed installation"
+    ./install.com && \
+    echo "Completed installation"
 
 # Made from: source $HOME/software/NMRPipe/com/nmrInit.linux212_64.com
 ENV NMRBASE=$HOME/software/NMRPipe
