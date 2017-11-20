@@ -24,7 +24,7 @@ RUN cd $HOME && \
 
 ################################
 # Only for: FROM jupyter/scipy-notebook
-# Include header files for Python 3 and remove scons syntax error with sed
+# Include header files for Python 3.
 # http://wiki.nmr-relax.com/Epd_canopy
 #ENV PYTHON_INCLUDE_DIR="/opt/conda/include/python3.6m"
 # Get relax
@@ -33,10 +33,6 @@ RUN cd $HOME && \
 #    git clone --depth 1 https://github.com/nmr-relax/relax.git relax && \
 #    cd $HOME && \
 #    cd $HOME/software/relax && \
-#    sed -i -e 's/+ `temp_extns`//g' sconstruct && \
-#    sed -i -e 's/+ `sys.version_info\[0\]`//g' sconstruct && \
-#    sed -i -e 's/+ `sys.version_info\[1\]`//g' sconstruct && \
-#    sed -i -e 's/+ `str(self.relax_fit_object\[0\])`//g' sconstruct && \
 #    scons && \
 #    ./relax -i && \
 #    ln -s $HOME/software/relax/relax $HOME/bin/relax
