@@ -14,19 +14,19 @@ ENV NB_USER jovyan
 # Set user
 USER ${NB_USER}
 
-#ENV ANACONDA_PACKAGES="mpi4py pyside wxpython"
-ENV ANACONDA_PACKAGES="ipywidgets mpi4py pyside wxpython"
-ENV CONDA_FORGE_PACKAGES="bqplot vaex ipyvolume"
+ENV ANACONDA_PACKAGES="mpi4py pyside wxpython"
 ENV PIP_PACKAGES="epydoc scons"
 # For relax, minfx, bmrblib, nmrglue
 ENV PIP_PACKAGES="$PIP_PACKAGES https://iweb.dl.sourceforge.net/project/minfx/1.0.12/minfx-1.0.12.tar.gz"
 ENV PIP_PACKAGES="$PIP_PACKAGES https://iweb.dl.sourceforge.net/project/bmrblib/1.0.4/bmrblib-1.0.4.tar.gz"
 ENV PIP_PACKAGES="$PIP_PACKAGES https://github.com/jjhelmus/nmrglue/releases/download/v0.6/nmrglue-0.6.tar.gz"
 
+#ENV CONDA_FORGE_PACKAGES="bqplot vaex ipyvolume"
+#conda install -c conda-forge $CONDA_FORGE_PACKAGES  && \
+
 # Install
 RUN echo "" && \
     conda install -c anaconda $ANACONDA_PACKAGES  && \
-    conda install -c conda-forge $CONDA_FORGE_PACKAGES  && \
     pip install $PIP_PACKAGES
 
 ################################
