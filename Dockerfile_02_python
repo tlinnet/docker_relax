@@ -15,14 +15,10 @@ ENV NB_USER jovyan
 USER ${NB_USER}
 
 ENV ANACONDA_PACKAGES="mpi4py pyside wxpython"
-ENV PIP_PACKAGES="epydoc scons"
-# For relax, minfx, bmrblib, nmrglue
+ENV PIP_PACKAGES="epydoc scons nmrglue"
+# For relax, minfx, bmrblib
 ENV PIP_PACKAGES="$PIP_PACKAGES https://iweb.dl.sourceforge.net/project/minfx/1.0.12/minfx-1.0.12.tar.gz"
 ENV PIP_PACKAGES="$PIP_PACKAGES https://iweb.dl.sourceforge.net/project/bmrblib/1.0.4/bmrblib-1.0.4.tar.gz"
-ENV PIP_PACKAGES="$PIP_PACKAGES https://github.com/jjhelmus/nmrglue/releases/download/v0.6/nmrglue-0.6.tar.gz"
-
-#ENV CONDA_FORGE_PACKAGES="bqplot vaex ipyvolume"
-#conda install -c conda-forge $CONDA_FORGE_PACKAGES  && \
 
 # Install
 RUN echo "" && \
@@ -30,70 +26,29 @@ RUN echo "" && \
     pip install $PIP_PACKAGES
 
 ################################
-# Only for: FROM ubuntu:16.04
+# Only for: FROM jupyter/scipy-notebook
+# Python2.7 for some programs
 ################################
-## For python2+3
-#ENV PIP_PACKAGES="epydoc mpi4py numpy scipy matplotlib"
-#ENV PIP_PACKAGES="$PIP_PACKAGES pandas jupyter jupyterlab ipykernel"
+# Create virtual env
+# 'anaconda' is the metapackage that includes all of the Python packages comprising the Anaconda distribution
+RUN echo "" && \
+    conda create -y -n python27 python=2.7 anaconda
 
-## Install. Upgrade pip in special order, so pip does not become pip3. Sigh...
-#RUN echo "" && \
-#    pip install setuptools  && \
-#    pip3 install --upgrade pip && \
-#    pip3 install setuptools && \
-#    pip2 install --upgrade pip && \
-#    pip install $PIP_PACKAGES && \
-#    pip3 install $PIP_PACKAGES && \
-#    ipython2 kernel install && \
-#    ipython3 kernel install
+# Get packages for MddNMR
+ENV ANACONDA_PACKAGES27="pyside numpy"
 
-## Install relax python pagkages
-## current version of minfx and bmrblib and nmrglue
-#RUN echo "" && \
-#    VMIN=`lynx -dump "http://wiki.nmr-relax.com/Template:Current_version_minfx" | grep -A 10 "Template:Current version minfx" | grep -B 1 "Retrieved from" | head -n 1 | tr -d '[[:space:]]'` && \
-#    echo "Installing current version of minfx: $VMIN" && \
-#    pip install https://iweb.dl.sourceforge.net/project/minfx/$VMIN/minfx-$VMIN.tar.gz && \
-#    pip3 install https://iweb.dl.sourceforge.net/project/minfx/$VMIN/minfx-$VMIN.tar.gz && \
-#    echo "" && \
-#    VBMR=`lynx -dump "http://wiki.nmr-relax.com/Template:Current_version_bmrblib" | grep -A 10 "Template:Current version bmrblib" | grep -B 1 "Retrieved from" | head -n 1 | tr -d '[[:space:]]'` && \
-#    echo "Installing current version of bmrblib: $VBMR" && \
-#    pip install https://iweb.dl.sourceforge.net/project/bmrblib/$VBMR/bmrblib-$VBMR.tar.gz && \
-#    pip3 install https://iweb.dl.sourceforge.net/project/bmrblib/$VBMR/bmrblib-$VBMR.tar.gz && \
-#    echo "" && \
-#    NGLUE=`curl -s https://api.github.com/repos/jjhelmus/nmrglue/releases/latest | grep "browser_download_url" | cut -d: -f2,3 | tr -d \" ` && \
-#    echo "Installing current version of nmrglue: $NGLUE" && \
-#    pip install $NGLUE && \
-#    pip3 install $NGLUE
+# Get packages for mmass and relax
+ENV ANACONDA_PACKAGES27="$ANACONDA_PACKAGES27 wxpython"
 
-## JupyterLab Extension
-## http://ipywidgets.readthedocs.io/en/stable/user_install.html
-## https://askubuntu.com/questions/786272/why-does-installing-node-6-x-on-ubuntu-16-04-actually-install-node-4-2-6
-#RUN apt-get update && \
-#    apt-get install apt-transport-https && \
-#    touch /etc/apt/sources.list.d/nodesource.list && \
-#    echo "deb https://deb.nodesource.com/node_8.x xenial main" >> /etc/apt/sources.list.d/nodesource.list && \
-#    echo "deb-src https://deb.nodesource.com/node_8.x xenial main" >> /etc/apt/sources.list.d/nodesource.list && \
-#    curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | sudo apt-key add - && \
-#    apt-get update && \
-#    apt-get install --no-install-recommends -y nodejs && \
-#    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
-#    rm -rf /var/lib/apt/lists/*
+# Get packages for relax
+ENV ANACONDA_PACKAGES27="$ANACONDA_PACKAGES27 mpi4py"
+ENV CONDAFORGE_PACKAGES27="matplotlib scipy"
+ENV PIP_PACKAGES27="epydoc scons nmrglue"
+ENV PIP_PACKAGES27="$PIP_PACKAGES27 https://iweb.dl.sourceforge.net/project/minfx/1.0.12/minfx-1.0.12.tar.gz"
+ENV PIP_PACKAGES27="$PIP_PACKAGES27 https://iweb.dl.sourceforge.net/project/bmrblib/1.0.4/bmrblib-1.0.4.tar.gz"
 
-## Jupyter Notebook widget setup
-
-## ipywidgets==6.0.0 : This fixes "Failed to display Jupyter Widget of type"
-## See: https://github.com/JuliaGizmos/Interact.jl/issues/176
-## See: https://github.com/jupyter-widgets/ipywidgets/issues/1425
-
-#ENV PIP_PACKAGES="ipywidgets bqplot ipyvolume"
-##ENV PIP_PACKAGES="ipywidgets"
-##ENV PIP_PACKAGES="ipywidgets==6.0.0"
-#RUN pip install $PIP_PACKAGES && \
-#    pip3 install $PIP_PACKAGES
-
-## Jupyter Notebook Extension.
-#RUN echo ""&& \
-#    jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
-#    jupyter nbextension enable --py bqplot --sys-prefix && \
-#    jupyter nbextension enable --py ipyvolume --sys-prefix
-#    #jupyter labextension install bqplot-jupyterlab
+# Install
+RUN echo "" && \
+    conda install -y -n python27 -c anaconda $ANACONDA_PACKAGES27 && \
+    conda install -y -n python27 -c conda-forge $CONDAFORGE_PACKAGES27 && \
+    /bin/bash -c "source activate python27; python -m pip install $PIP_PACKAGES27"

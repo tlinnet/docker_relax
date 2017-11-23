@@ -1,4 +1,3 @@
-# https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/
 # docker build -t tlinnet/relax .
 
 FROM tlinnet/relax:10_relax

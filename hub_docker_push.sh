@@ -27,6 +27,9 @@ docker push $DOCKER_ID_USER/relax:05_Palmer_Sparky_Analysis
 #docker tag $USER/relax:06_mmass $DOCKER_ID_USER/relax:06_mmass
 docker push $DOCKER_ID_USER/relax:06_mmass
 
+# Image 7
+docker push $DOCKER_ID_USER/relax:07_Jupyter
+
 # Image 10
 #docker tag $USER/relax:10_relax $DOCKER_ID_USER/relax:10_relax
 docker push $DOCKER_ID_USER/relax:10_relax

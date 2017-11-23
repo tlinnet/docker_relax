@@ -3,9 +3,6 @@ FROM tlinnet/relax:05_Palmer_Sparky_Analysis
 # Add mmass
 # http://mmass.org/
 # http://forum.mmass.org/viewtopic.php?id=1507
-ENV ANACONDA_PACKAGES27="wxpython"
-RUN echo "" && \
-    conda install -y -n python27 -c anaconda $ANACONDA_PACKAGES27
 
 RUN cd $HOME && \
     echo "mmass" && \

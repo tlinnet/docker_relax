@@ -18,6 +18,9 @@ source  build_Dockerfile_05.sh
 ## Build with mmass
 source  build_Dockerfile_06.sh
 
+## Add or modify Jupyter
+source  build_Dockerfile_07.sh
+
 ## Build relax
 source  build_Dockerfile_10.sh
 

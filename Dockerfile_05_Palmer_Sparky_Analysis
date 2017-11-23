@@ -85,19 +85,3 @@ ENV PYTHONPATH=.:${CCPNMR_TOP_DIR}/ccpnmr2.1/python
 #    curl -O http://www2.ccpn.ac.uk/download/ccpnmr/format2.4.0.tar.gz && \
 #    tar xvf format2.4.0.tar.gz && \
 #    mv ccpnmr ccpnmr_format
-
-################################
-# Only for: FROM ubuntu:16.04
-################################
-## build pymol
-## https://pymolwiki.org/index.php/Linux_Install
-#RUN cd $HOME && \
-#    mkdir -p $HOME/software && \
-#    cd $HOME/software && \
-#    svn co svn://svn.code.sf.net/p/pymol/code/trunk/pymol && \
-#    cd $HOME/software/pymol && \
-#    prefix=$HOME/software/pymol-svn && \
-#    modules=$prefix/modules && \
-#    python2.7 setup.py build install --home=$prefix --install-lib=$modules --install-scripts=$prefix && \
-#    cd $HOME/bin && \
-#    ln -s $HOME/software/pymol-svn/pymol pymol
