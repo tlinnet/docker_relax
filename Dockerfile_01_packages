@@ -5,7 +5,7 @@
 # can be created from any point in an images history.
 
 # See latest tag at: https://hub.docker.com/r/jupyter/scipy-notebook/
-FROM jupyter/scipy-notebook:7fd175ec22c7
+FROM jupyter/scipy-notebook:033056e6d164
 
 # Set root
 USER root
